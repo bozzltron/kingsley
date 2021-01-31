@@ -105,9 +105,12 @@ if __name__=='__main__':
 
 
 
-        elif 'time' in statement:
-            strTime=datetime.datetime.now().strftime("%H:%M:%S")
-            speak(f"the time is {strTime}")
+        elif any(key in statement for key in ['what time is it', 'the time', 'today\s date']):
+            strTime=datetime.datetime.now().strftime("%I:%M %p")
+            dateTime=datetime.datetime.now().strftime("%B %d, %Y")
+            answer = "the time is {} on {}".format(strTime, dateTime)
+            print(answer)
+            speak(answer)
 
         elif 'who are you' in statement or 'what can you do' in statement:
             speak('I am Kingsley version 1 point O your persoanl assistant. I do things.')

@@ -50,7 +50,7 @@ def takeCommand():
             return "None"
         return statement
 
-speak("Loading your AI personal assistant G-One")
+speak("Loading your AI personal assistant Kingsley")
 wishMe()
 
 
@@ -64,8 +64,8 @@ if __name__=='__main__':
             continue
 
         if "good bye" in statement or "ok bye" in statement or "stop" in statement:
-            speak('your personal assistant G-one is shutting down,Good bye')
-            print('your personal assistant G-one is shutting down,Good bye')
+            speak('your personal assistant Kingsley is shutting down,Good bye')
+            print('your personal assistant Kingsley is shutting down,Good bye')
             break
 
 
@@ -130,7 +130,7 @@ if __name__=='__main__':
             speak(f"the time is {strTime}")
 
         elif 'who are you' in statement or 'what can you do' in statement:
-            speak('I am G-one version 1 point O your persoanl assistant. I am programmed to minor tasks like'
+            speak('I am Kingsley version 1 point O your persoanl assistant. I am programmed to minor tasks like'
                   'opening youtube,google chrome,gmail and stackoverflow ,predict time,take a photo,search wikipedia,predict weather' 
                   'in different cities , get top headline news from times of india and you can ask me computational or geographical questions too!')
 
