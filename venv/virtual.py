@@ -14,7 +14,7 @@ import requests
 print('Loading your AI personal assistant - G One')
 
 def speak(text):
-    return os.system("espeak  -s 155 -a 200 "+text+" ")
+    return os.system("espeak -s 155 -a 200 '"+text+"'")
 
 def wishMe():
     hour=datetime.datetime.now().hour
@@ -31,16 +31,15 @@ def wishMe():
 def takeCommand():
     r=sr.Recognizer()
     with sr.Microphone() as source:
-        print("Listening...")
+        
         r.adjust_for_ambient_noise(source)
         audio=r.listen(source)
 
         try:
-            statement=r.recognize_google(audio,language='en-in')
-            print(f"user said:{statement}\n")
+            statement=r.recognize_google(audio,language='en-us')
+            print(f"I heard:{statement}\n")
 
         except Exception as e:
-            #speak("Pardon me, please say that again")
             return "None"
         return statement
 
