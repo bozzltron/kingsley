@@ -1,5 +1,4 @@
 import speech_recognition as sr
-import pyttsx3
 import datetime
 import wikipedia
 import webbrowser
@@ -14,14 +13,8 @@ import requests
 
 print('Loading your AI personal assistant - G One')
 
-engine=pyttsx3.init('sapi5')
-voices=engine.getProperty('voices')
-engine.setProperty('voice','voices[0].id')
-
-
 def speak(text):
-    engine.say(text)
-    engine.runAndWait()
+    return os.system("espeak  -s 155 -a 200 "+text+" " )
 
 def wishMe():
     hour=datetime.datetime.now().hour
@@ -82,7 +75,6 @@ if __name__=='__main__':
             time.sleep(5)
 
         elif "weather" in statement:
-            print('api', credentials.openweathermap_key)
             api_key=credentials.openweathermap_key
             base_url="https://api.openweathermap.org/data/2.5/weather?"
             city_name="Waukee, Iowa"
