@@ -9,9 +9,9 @@ from ecapture import ecapture as ec
 import wolframalpha
 import json
 import requests
+import credentials
 
-
-print('Loading your AI personal assistant - G One')
+print('Loading your AI personal assistant - Kingsley')
 
 def speak(text):
     return os.system("espeak -s 155 -a 200 '"+text+"'")
