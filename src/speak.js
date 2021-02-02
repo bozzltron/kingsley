@@ -8,7 +8,7 @@ var voices = synth.getVoices().sort(function (a, b) {
     else return +1;
 });
 
-function speak(text) {
+export default function speak(text) {
     if (synth.speaking) {
         console.error('speechSynthesis.speaking');
         return;

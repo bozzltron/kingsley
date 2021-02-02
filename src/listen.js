@@ -2,7 +2,7 @@ var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
 var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
 var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
 
-function listen(forever) {
+export default function listen(forever) {
     var grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ;';
     var recognition = new SpeechRecognition();
     //var speechRecognitionList = new SpeechGrammarList();

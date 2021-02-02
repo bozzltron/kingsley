@@ -1,6 +1,6 @@
 
 
-var commands = {
+export default {
 
     getTheTime: ()=>{
         var date = new Date();
@@ -16,6 +16,15 @@ var commands = {
     greeting: function() {
         var hours = new Date().getHours();
         return hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening"
+    },
+
+    wikipedia: async function(query){
+        query = query.replace("according", "").replace("to", "").replace("wikipedia", "").replace("who").replace("is", "");
+        let result = await window.fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${query}`, 
+            { mode: 'no-cors', headers: {'Accept': 'application/json' }, })
+            .then(response => response.json());
+        console.log("result", result);
+        return "done"
     }
 
 }
