@@ -23,6 +23,11 @@ export default function (statement :string) :Promise<string> {
         return commands.thanks();
     }
 
+    else if (statement.includes("hello") || statement.includes("hi")) {
+        return commands.hi();
+    }
+
+
     else {
         // return Promise.resolve("I'm afraid I don't understand.")
     }

@@ -50,6 +50,10 @@ export default {
         let random = Math.floor(Math.random() * 3 + 1);
         let acks = ["Thank you", "I try", "That's why I'm here."]
         return Promise.resolve(acks[random]);
+    },
+
+    hello: function(){
+        return Promise.resolve("Hello")
     }
 
 }
