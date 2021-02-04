@@ -1,0 +1,71 @@
+
+.messages {
+    margin-top:20%;
+}
+
+.message {
+    animation-duration: 1s;
+    animation-name: slidein;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    border: 4.5px solid #555;
+    padding: 1em;
+    border-radius:20px;
+    margin:1em;
+    font-size:1.5em;
+    background-color: rgb(252, 239, 237);
+}
+
+@keyframes slidein {
+    from {
+        margin-top: 100%;
+    }
+
+    to {
+        margin-top: 0%;
+    }
+}
+
+body {
+    background-color: #ff4814;
+  }
+  .container {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    margin-left: -64.5px;
+    margin-top: -85.5px;
+  }
+  .ghost {
+    animation: float 3s ease-out infinite;
+  }
+  @keyframes float {
+    50% {
+      transform: translate(0, 20px);
+    }
+  }
+  .shadowFrame {
+    width: 130px;
+    margin-top: 15px;
+  }
+  .shadow {
+    animation: shrink 3s ease-out infinite;
+    transform-origin: center center;
+  }
+  .shadow ellipse {
+    transform-origin: center center;
+  }
+  @keyframes shrink {
+    0% {
+      width: 90%;
+      margin: 0 5%;
+    }
+    50% {
+      width: 60%;
+      margin: 0 18%;
+    }
+    100% {
+      width: 90%;
+      margin: 0 5%;
+    }
+  }
+  

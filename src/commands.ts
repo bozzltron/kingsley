@@ -12,12 +12,12 @@ export default {
         hours = hours % 12;
         hours = hours ? hours : 12; 
         var minutesString :string = minutes < 10 ? '0'+ minutes : '' + minutes;
-        return hours + ':' + minutesString + ' ' + ampm;
+        return Promise.resolve(hours + ':' + minutesString + ' ' + ampm);
     },
 
     greeting: function() {
         var hours = new Date().getHours();
-        return hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening"
+        return Promise.resolve(hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening")
     },
 
     wikipedia: async function(query :string){
@@ -34,6 +34,16 @@ export default {
                 return page.extract;
             })
         return extract.length > 0 ? extract[0] : extract;
+    },
+
+    acknowledge: function(statement :string) {
+        let random = Math.floor(Math.random() * 3 + 1);
+        let acks = ["Yes?", "Sup", "I hear you"]
+        return Promise.resolve(acks[random]);
+    },
+
+    getName: function(){
+        return Promise.resolve("I'm Kingsley")
     }
 
 }

@@ -15,7 +15,11 @@ export default function (statement :string) :Promise<string> {
         return commands.wikipedia(statement);
     }
 
+    else if (statement.includes("kingsley")) {
+        return commands.acknowledge(statement);
+    }
+
     else {
-        return Promise.resolve("I'm afraid I don't understand.")
+        // return Promise.resolve("I'm afraid I don't understand.")
     }
 }
