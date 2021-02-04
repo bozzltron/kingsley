@@ -12,19 +12,22 @@ export default function listen(forever) {
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
     recognition.start();
-    console.log("listening...");
+    console.log("listen: listening...");
 
-    if(forever) {
-        recognition.onend = function (event) {
-            try {
-                recognition.stop();
-                recognition.start();
-                console.log("listening...");
-            } catch(e) {
+    // if(forever) {
+    //     recognition.onend = function (event) {
+    //         try {
+    //             recognition.stop();
+    //             setTimeout(()=>{
+    //                 recognition.start();
+    //                 console.log("onend: listening...");
+    //             }, 1000)
                 
-            }
-          }
-    }
+    //         } catch(e) {
+                
+    //         }
+    //       }
+    // }
 
     return recognition;
 }

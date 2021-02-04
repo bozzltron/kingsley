@@ -2,7 +2,7 @@
     "exclude": [
         "node_modules",
     ],
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "babel.config.js"],
     "compilerOptions": {
       "outDir": "./dist/",
       "noImplicitAny": true,
@@ -10,6 +10,7 @@
       "target": "es5",
       "jsx": "react",
       "allowJs": true,
-      "sourceMap": true
+      "sourceMap": true,
+      "allowSyntheticDefaultImports": true
     }
   }
