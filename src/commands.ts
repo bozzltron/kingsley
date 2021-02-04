@@ -1,4 +1,3 @@
-import speak from './speak'
 // import WordPOS from 'wordpos'
 // import {JSONPath} from 'jsonpath-plus';
 // const wordpos = new WordPOS({});
@@ -22,13 +21,13 @@ export default {
     },
 
     wikipedia: async function(query :string){
-        speak("Searching wikipedia");
         //let nouns = wordpos.getNouns(query.replace("wikipedia", "")); 
         let nouns = query.replace('wikipedia', '')
         let extract = await window.fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${nouns}`, 
             { mode: 'no-cors', headers: {'Accept': 'application/json' }, })
             .then(response => response.json())
             .then(json => {
+                console.log("json", json);
                 let pages = json.query.pages;
                 let keys = Object.keys(pages);
                 let page = pages[keys[0]];

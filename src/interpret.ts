@@ -7,11 +7,15 @@ export default function (statement :string) :Promise<string> {
         return Promise.resolve(commands.getTheTime());
     }
 
-    if (statement.includes("what's your name") || statement.includes("who are you")) {
+    else if (statement.includes("what's your name") || statement.includes("who are you")) {
         return Promise.resolve("I'm " + name);
     }
 
-    if (statement.includes("wikipedia")) {
+    else if (statement.includes("wikipedia")) {
         return commands.wikipedia(statement);
+    }
+
+    else {
+        return Promise.resolve("I'm afraid I don't understand.")
     }
 }
