@@ -44,6 +44,12 @@ export default {
 
     getName: function(){
         return Promise.resolve("I'm Kingsley")
+    },
+
+    thanks: function(){
+        let random = Math.floor(Math.random() * 3 + 1);
+        let acks = ["Thank you", "I try", "That's why I'm here."]
+        return Promise.resolve(acks[random]);
     }
 
 }

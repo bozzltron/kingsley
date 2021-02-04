@@ -4,11 +4,11 @@ const name = 'Kingsley'
 export default function (statement :string) :Promise<string> {
 
     if (statement.includes("what time is it") || statement.includes("do you have the time")) {
-        return Promise.resolve(commands.getTheTime());
+        return commands.getTheTime();
     }
 
     else if (statement.includes("what's your name") || statement.includes("who are you")) {
-        return Promise.resolve("I'm " + name);
+        return commands.getName();
     }
 
     else if (statement.includes("wikipedia")) {
@@ -17,6 +17,10 @@ export default function (statement :string) :Promise<string> {
 
     else if (statement.includes("kingsley")) {
         return commands.acknowledge(statement);
+    }
+
+    else if (statement.includes("good job") || statement.includes("nice work") ) {
+        return commands.thanks();
     }
 
     else {
