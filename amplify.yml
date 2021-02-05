@@ -8,6 +8,7 @@ frontend:
   phases:
     preBuild:
       commands:
+        - amplifyPush --simple
         - npm ci
     build:
       commands:
