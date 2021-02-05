@@ -3,12 +3,12 @@ backend:
   phases:
     build:
       commands:
+        - echo '{}' > amplify/.config/local-env-info.json
         - amplifyPush --simple
 frontend:
   phases:
     preBuild:
       commands:
-        - amplifyPush --simple
         - npm ci
     build:
       commands:
