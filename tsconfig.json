@@ -2,7 +2,7 @@
     "exclude": [
         "node_modules",
     ],
-    "include": ["src/**/*", "babel.config.js", "test.js"],
+    "include": ["src/**/*", "babel.config.js"],
     "compilerOptions": {
       "outDir": "./dist/",
       "noImplicitAny": true,
