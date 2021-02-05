@@ -1,4 +1,9 @@
 version: 1
+backend:
+  phases:
+    build:
+      commands:
+        - amplifyPush --simple
 frontend:
   phases:
     preBuild:
@@ -12,4 +17,5 @@ frontend:
     files:
       - '**/*'
   cache:
-    paths: []
+    paths:
+      - node_modules/**/*
