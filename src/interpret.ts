@@ -11,7 +11,10 @@ export default function (statement :string) :Promise<string> {
         return commands.getName();
     }
 
-    else if (statement.includes("wikipedia")) {
+    else if (statement.includes("tell me about") || 
+            statement.includes("what is") || 
+            statement.includes("what are") || 
+            statement.includes("who is")) {
         return commands.wikipedia(statement);
     }
 
@@ -24,7 +27,7 @@ export default function (statement :string) :Promise<string> {
     }
 
     else if (statement.includes("hello") || statement.includes("hi")) {
-        return commands.hi();
+        return commands.hello();
     }
 
 

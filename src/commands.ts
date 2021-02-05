@@ -1,6 +1,7 @@
-// import WordPOS from 'wordpos'
-// import {JSONPath} from 'jsonpath-plus';
-// const wordpos = new WordPOS({});
+import Amplify, { API } from 'aws-amplify';
+import awsconfig from './aws-exports';
+
+Amplify.configure(awsconfig);
 
 export default {
 
@@ -20,20 +21,25 @@ export default {
         return Promise.resolve(hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening")
     },
 
-    wikipedia: async function(query :string){
+    wikipedia: async function(statement :string){
         //let nouns = wordpos.getNouns(query.replace("wikipedia", "")); 
-        let nouns = query.replace('wikipedia', '')
-        let extract = await window.fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro&explaintext&redirects=1&titles=${nouns}`, 
-            { mode: 'no-cors', headers: {'Accept': 'application/json' }, })
-            .then(response => response.json())
-            .then(json => {
-                console.log("json", json);
-                let pages = json.query.pages;
-                let keys = Object.keys(pages);
-                let page = pages[keys[0]];
-                return page.extract;
+        let extract :string = "I didn't find anything";
+        try {
+            let noun = statement
+                        .replace('tell me about', '')
+                        .replace('what is', '')
+                        .replace('what are', '')
+                        .replace('who are', '');
+            let summary = await API.get('wikipedia', '/wikipedia', {
+                queryStringParameters: { 
+                    query: noun
+                }
             })
-        return extract.length > 0 ? extract[0] : extract;
+            extract = summary.extract;
+        } catch (e) {
+            console.error(e);
+        }
+        return extract;
     },
 
     acknowledge: function(statement :string) {

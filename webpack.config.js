@@ -17,6 +17,14 @@ module.exports = {
         test: /\.css$/i,
         use: ["style-loader", "css-loader"],
       },
+      {
+        test: /\.(mjs)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },
     ],
   },
   devServer: {
@@ -25,7 +33,7 @@ module.exports = {
     port: 9000
   },
   resolve: {
-    extensions: [ '.tsx', '.ts', '.js' ],
+    extensions: [ '.ts', '.js' ],
   },
   output: {
     filename: 'bundle.js',

@@ -5,5 +5,28 @@
       "type": "cicd",
       "lastPushTimeStamp": "2021-02-02T21:01:32.081Z"
     }
+  },
+  "function": {
+    "wikipedia": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "api": {
+    "wikipedia": {
+      "service": "API Gateway",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "wikipedia",
+          "attributes": [
+            "Name",
+            "Arn"
+          ]
+        }
+      ]
+    }
   }
 }

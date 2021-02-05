@@ -1,3 +1,5 @@
+import "@babel/polyfill";
+import 'url-search-params-polyfill';
 import listen from './listen'
 import speak from './speak'
 import interpret from './interpret'
@@ -5,8 +7,6 @@ import { SpeechEvent } from "./types";
 import commands from './commands'
 import "./style.css";
 
-var input = document.querySelector(".input");
-var output = document.querySelector(".output");
 var name = "Kingsley";
 var el :HTMLElement = document.querySelector('.activate');
 
@@ -26,7 +26,7 @@ function respond(response :string) {
   speak(response);
   setTimeout(()=>{
     clearMessages();
-  }, 20000)
+  }, 40000)
 }
 
 function handler(event :SpeechEvent) {
@@ -35,7 +35,6 @@ function handler(event :SpeechEvent) {
   var statement = event.results[0][0].transcript.toLowerCase();
   let confidence = event.results[0][0].confidence;
   createMessage("I heard: " + statement);
-  output.textContent = "";
   console.log('Confidence: ' + event.results[0][0].confidence);
   if(confidence < 0.5) {
     respond("Can you speak clearly?  I didn't hear you very well.")
@@ -55,7 +54,7 @@ el.onclick = async function(e :Event){
         ear.start();
         listening = true;
       }
-    }, 1000);
+    }, 2000);
   }
   var interval = startListening();
 

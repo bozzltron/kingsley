@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/wikipedia",
+            "lambdaFunction": "wikipedia",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/wikipedia"
+        }
+    ],
+    "resourceName": "wikipedia",
+    "apiName": "wikipedia",
+    "functionArns": [
+        {
+            "lambdaFunction": "wikipedia"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-kingsley-prod-145313-authRole",
+        "unAuthRoleName": "amplify-kingsley-prod-145313-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "wikipedia",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
