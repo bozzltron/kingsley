@@ -20,7 +20,8 @@ export default function speak(text) {
         console.error('SpeechSynthesisUtterance.onerror');
     }
 
-    mouth.voice = voices[0];
+    let voiceIndex = localStorage.getItem('voice') ? parseInt(localStorage.getItem('voice'), 10) : 0;
+    mouth.voice = voices[voiceIndex];
     mouth.pitch = 1;
     mouth.rate = 1;
     synth.speak(mouth);

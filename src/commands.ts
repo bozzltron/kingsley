@@ -61,6 +61,21 @@ export default {
 
     hello: function(){
         return Promise.resolve("Hello")
+    },
+
+    voices: ()=>{
+        let voices = window.speechSynthesis.getVoices().map((voice :any, index :number)=>{ return index + " " +voice.name });
+        return Promise.resolve(voices.join(','))
+    },
+
+    setVoice: (statement :string)=>{
+        let voice = parseInt(statement.replace( /^\D+/g, ''), 10);
+        if(voice >= 0){
+            localStorage.setItem('voice', String(voice));
+            return Promise.resolve("How do I sound now?")
+        } else {
+            return Promise.resolve("I need the number of the voice you want.")
+        }
     }
 
 }

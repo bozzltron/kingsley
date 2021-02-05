@@ -11,14 +11,6 @@ export default function (statement :string) :Promise<string> {
         return commands.getName();
     }
 
-    else if (statement.includes("tell me about") || 
-            statement.includes("what is") || 
-            statement.includes("what are") || 
-            statement.includes("who is") ||
-            statement.includes("who are")) {
-        return commands.wikipedia(statement);
-    }
-
     else if (statement.includes("kingsley")) {
         return commands.acknowledge(statement);
     }
@@ -29,6 +21,22 @@ export default function (statement :string) :Promise<string> {
 
     else if (statement.includes("hello") || statement.includes("hi")) {
         return commands.hello();
+    }
+
+    else if (statement.includes("voice options")) {
+        return commands.voices();
+    }
+
+    else if (statement.includes("set voice")) {
+        return commands.setVoice(statement);
+    }
+
+    else if (statement.includes("tell me about") || 
+        statement.includes("what is") || 
+        statement.includes("what are") || 
+        statement.includes("who is") ||
+        statement.includes("who are")) {
+        return commands.wikipedia(statement);
     }
 
     else {
