@@ -29,7 +29,8 @@ export default {
                         .replace('tell me about', '')
                         .replace('what is', '')
                         .replace('what are', '')
-                        .replace('who are', '');
+                        .replace('who are', '')
+                        .replace('who is', '');
             let summary = await API.get('wikipedia', '/wikipedia', {
                 queryStringParameters: { 
                     query: noun

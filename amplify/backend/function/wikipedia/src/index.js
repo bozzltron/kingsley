@@ -2,6 +2,14 @@ const wiki = require('wikipedia');
 
 exports.handler = async (event) => {
     let response = {};
+
+    if(event.httpMethod == 'OPTIONS'){
+        return {
+            statusCode: 200,
+            body: {}
+        }
+    }
+
     try {
         const page = await wiki.page(event.queryStringParameters['query']);
         const summary = await page.summary();

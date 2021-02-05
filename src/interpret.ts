@@ -14,7 +14,8 @@ export default function (statement :string) :Promise<string> {
     else if (statement.includes("tell me about") || 
             statement.includes("what is") || 
             statement.includes("what are") || 
-            statement.includes("who is")) {
+            statement.includes("who is") ||
+            statement.includes("who are")) {
         return commands.wikipedia(statement);
     }
 
@@ -29,7 +30,6 @@ export default function (statement :string) :Promise<string> {
     else if (statement.includes("hello") || statement.includes("hi")) {
         return commands.hello();
     }
-
 
     else {
         // return Promise.resolve("I'm afraid I don't understand.")
