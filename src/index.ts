@@ -19,15 +19,12 @@ function createMessage(message: string) {
   document.querySelector('.messages').appendChild(el);
 }
 
-async function respond(response :string) {
+function respond(response :string) {
   createMessage("Response: " + response);
-  await speak(response);
-  setTimeout(() => {
-    clearMessages();
-  }, 40000)
+  return speak(response);
 }
 
-async function sleep(seconds :number) {
+function sleep(seconds :number) {
   return new Promise((resolve)=>{
     setTimeout(resolve, seconds * 1000);
   })
@@ -55,7 +52,7 @@ el.onclick = async (e: Event) => {
           await respond("Can you speak clearly?  I didn't hear you very well.")
         }
       }
-      await sleep(1);
+      await sleep(0.1);
     } catch (e) {
       if(e.error != 'no-speech') {
         console.error(e);
