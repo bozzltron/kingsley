@@ -1,5 +1,5 @@
 import commands from './commands'
-const name = 'Kingsley'
+import session from './session'
 
 export default function (statement :string) :Promise<string> {
 
@@ -44,6 +44,10 @@ export default function (statement :string) :Promise<string> {
     }
 
     else {
-        return commands.tryAgain();
+        if(session.get().active) {
+            return commands.tryAgain();
+        }
     }
+
+    return Promise.resolve("");
 }

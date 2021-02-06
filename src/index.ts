@@ -4,8 +4,10 @@ import speak from './speak'
 import interpret from './interpret'
 import commands from './commands'
 import "./style.css";
+import session from './session'
 
-var name = "Kingsley";
+session.init();
+
 var el: HTMLElement = document.querySelector('.activate');
 
 function clearMessages() {
@@ -20,8 +22,14 @@ function createMessage(message: string) {
 }
 
 function respond(response :string) {
-  createMessage("Response: " + response);
-  return speak(response);
+  if (!response) return Promise.resolve();
+  if(session.get().active) {
+    createMessage("Response: " + response);
+    return speak(response);
+  } else {
+    createMessage(`Are you talking to me? "Say, hey ${session.get().name}".`);
+    return Promise.resolve();
+  }
 }
 
 function sleep(seconds :number) {
@@ -33,7 +41,7 @@ function sleep(seconds :number) {
 el.onclick = async (e: Event) => {
 
   console.log('say greeting')
-  await speak(await commands.greeting() + ". I'm " + name);
+  await speak(await commands.greeting() + ". I'm " + session.get().name);
 
   while (true) {
     try {
@@ -48,9 +56,9 @@ el.onclick = async (e: Event) => {
         createMessage("I heard: " + statement);
         let response = await interpret(statement);
         await respond(response);
-        if (confidence < 0.5) {
+        if (confidence < 0.5 && session.get().active) {
           await respond("Can you speak clearly?  I didn't hear you very well.")
-        }
+        }         
       }
       await sleep(0.1);
     } catch (e) {

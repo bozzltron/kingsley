@@ -1,6 +1,6 @@
 import Amplify, { API } from 'aws-amplify';
 import awsconfig from './aws-exports';
-
+import session from './session';
 Amplify.configure(awsconfig);
 
 export default {
@@ -44,13 +44,17 @@ export default {
     },
 
     acknowledge: function(statement :string) {
-        let random = Math.floor(Math.random() * 3 + 1);
+        session.set({active: true});
+        setTimeout(()=>{
+            session.set({active: false});
+        }, 300000)
         let acks = ["Yes?", "Sup", "I hear you"]
+        let random = Math.floor(Math.random() * acks.length + 1);
         return Promise.resolve(acks[random]);
     },
 
     getName: function(){
-        return Promise.resolve("I'm Kingsley")
+        return Promise.resolve(`I'm ${session.get().name}`)
     },
 
     thanks: function(){
