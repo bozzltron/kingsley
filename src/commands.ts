@@ -92,6 +92,12 @@ export default {
         // complete_url=base_url+"appid="+api_key+"&q="+city_name+"&units=imperial"
         // response = requests.get(complete_url)
         // x=response.json()
+    },
+
+    tryAgain: () => {
+        let acks = ["Come again?", "Can you say that again?", "I beg your pardon?", "I may not have an answer for that.  Try saying that another way."]
+        let random = Math.floor(Math.random() * acks.length + 1);
+        return Promise.resolve(acks[random]);
     }
 
 }

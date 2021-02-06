@@ -4,28 +4,26 @@ var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEv
 
 function listen() {
     return new Promise((resolve, reject) => {
-        try {
-            let grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ;';
-            let recognition = new SpeechRecognition();
-            let speechRecognitionList = new SpeechGrammarList();
 
-            speechRecognitionList.addFromString(grammar, 1);
-            recognition.grammars = speechRecognitionList;
-            recognition.lang = 'en-US';
-            recognition.interimResults = false;
-            recognition.maxAlternatives = 1;
+        let grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ;';
+        let recognition = new SpeechRecognition();
+        let speechRecognitionList = new SpeechGrammarList();
 
-            recognition.onerror = reject;
+        speechRecognitionList.addFromString(grammar, 1);
+        recognition.grammars = speechRecognitionList;
+        recognition.lang = 'en-US';
+        recognition.interimResults = false;
+        recognition.maxAlternatives = 1;
 
-            recognition.onresult = (event) => {
-                console.log("gathered result", event.results);
-                resolve(event.results);
-            };
+        recognition.onerror = reject;
 
-            recognition.start();
-        } catch (e) {
-            reject(e);
-        }
+        recognition.onresult = (event) => {
+            console.log("gathered result", event.results);
+            resolve(event.results);
+        };
+
+        recognition.start();
+
     })
 }
 

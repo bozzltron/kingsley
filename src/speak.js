@@ -1,8 +1,12 @@
 var synth = window.speechSynthesis;
 
 export default function speak(text) {
-    if (synth.speaking) {
+    if (synth.speaking || !text) {
         synth.cancel();
+    }
+
+    if(text.length > 300) {
+        text = "I'll let you read this."
     }
 
     return new Promise( (resolve,reject) => {

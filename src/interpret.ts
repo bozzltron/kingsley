@@ -44,6 +44,6 @@ export default function (statement :string) :Promise<string> {
     }
 
     else {
-        return Promise.resolve("I dont have an answer for you right now.")
+        return commands.tryAgain();
     }
 }
