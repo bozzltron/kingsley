@@ -108,6 +108,12 @@ export default {
         let acks = ["Come again?", "Can you say that again?", "I beg your pardon?", "I may not have an answer for that.  Try saying that another way."]
         let random = Math.floor(Math.random() * acks.length + 1);
         return Promise.resolve(acks[random]);
+    },
+
+    status: () => {
+        let acks = ["I am a program.  I have no feelings.  But if it makes you feel better, I'm fantastic.", "Considering the circumstances, good.", "I feel like a koala bear crapped a rainbow on my brain."]
+        let random = Math.floor(Math.random() * acks.length + 1);
+        return Promise.resolve(acks[random]);
     }
 
 }

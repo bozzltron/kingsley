@@ -14,6 +14,10 @@ export default function (statement :string) :Promise<string> {
         return commands.getName();
     }
 
+    else if(statement.includes("how are you")){
+        return commands.status();
+    }
+
     else if (statement.includes("kingsley")) {
         return commands.acknowledge(statement);
     }
