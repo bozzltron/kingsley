@@ -3,7 +3,10 @@ import session from './session'
 
 export default function (statement :string) :Promise<string> {
 
-    if (statement.includes("what time is it") || statement.includes("do you have the time")) {
+    if (statement.includes("what time is it") || 
+        statement.includes("do you have the time") ||
+        statement.includes("what is the date") ||
+        statement.includes("todays date")) {
         return commands.getTheTime();
     }
 

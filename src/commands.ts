@@ -6,14 +6,23 @@ Amplify.configure(awsconfig);
 export default {
 
     getTheTime: ()=>{
+        const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+        ];
+        const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+        var d = new Date();
         var date = new Date();
         var hours = date.getHours();
         var minutes :number = date.getMinutes();
+        var day = date.getUTCDate();
+        var year = date.getUTCFullYear();
+        var month = monthNames[date.getUTCMonth()];
+        var dayOfTheWeek  = daysOfTheWeek[date.getDay()];
         var ampm = hours >= 12 ? 'pm' : 'am';
         hours = hours % 12;
         hours = hours ? hours : 12; 
         var minutesString :string = minutes < 10 ? '0'+ minutes : '' + minutes;
-        return Promise.resolve(hours + ':' + minutesString + ' ' + ampm);
+        return Promise.resolve(`${hours}:${minutesString} ${ampm} on ${dayOfTheWeek} ${month} ${day}, ${year}`);
     },
 
     greeting: function() {
@@ -44,10 +53,7 @@ export default {
     },
 
     acknowledge: function(statement :string) {
-        session.set({active: true});
-        setTimeout(()=>{
-            session.set({active: false});
-        }, 300000)
+        session.activate();
         let acks = ["Yes?", "Sup", "I hear you"]
         let random = Math.floor(Math.random() * acks.length + 1);
         return Promise.resolve(acks[random]);
@@ -81,7 +87,7 @@ export default {
     setVoice: (statement :string)=>{
         let voice = parseInt(statement.replace( /^\D+/g, ''), 10);
         if(voice >= 0){
-            localStorage.setItem('voice', String(voice));
+            session.set({voice:voice});
             return Promise.resolve("How do I sound now?")
         } else {
             return Promise.resolve("I need the number of the voice you want.")

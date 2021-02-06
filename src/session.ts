@@ -13,8 +13,11 @@ let defaults = {
 
 let session = {
 
-    init: ()=> {
-        session.set(defaults);
+    activate: ()=>{
+        session.set({active: true});
+        setTimeout(()=>{
+            session.set({active: false});
+        }, 300000)
     },
 
     set: (changes :any) => {

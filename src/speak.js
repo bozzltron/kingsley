@@ -1,3 +1,4 @@
+import session from './session';
 var synth = window.speechSynthesis;
 
 export default function speak(text) {
@@ -12,7 +13,7 @@ export default function speak(text) {
     return new Promise( (resolve,reject) => {
         var mouth = new SpeechSynthesisUtterance(text);
         var voices = synth.getVoices();
-        let voiceIndex = localStorage.getItem('voice') ? parseInt(localStorage.getItem('voice'), 10) : 0;
+        let voiceIndex = session.get().voice;
         let interval;
 
         mouth.voice = voices[voiceIndex];

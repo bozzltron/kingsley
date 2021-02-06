@@ -6,8 +6,6 @@ import commands from './commands'
 import "./style.css";
 import session from './session'
 
-session.init();
-
 var el: HTMLElement = document.querySelector('.activate');
 
 function clearMessages() {
@@ -38,9 +36,12 @@ function sleep(seconds :number) {
   })
 }
 
+createMessage("Tap me to get started.");
+
 el.onclick = async (e: Event) => {
 
-  console.log('say greeting')
+  clearMessages();
+  session.activate();
   await speak(await commands.greeting() + ". I'm " + session.get().name);
 
   while (true) {
