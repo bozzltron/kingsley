@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/weather",
+            "lambdaFunction": "weather",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/weather"
+        }
+    ],
+    "resourceName": "weather",
+    "apiName": "weather",
+    "functionArns": [
+        {
+            "lambdaFunction": "weather"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-kingsley-prod-145313-authRole",
+        "unAuthRoleName": "amplify-kingsley-prod-145313-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "weather",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

@@ -1,7 +1,8 @@
 import commands from './commands'
 import session from './session'
+import { Response } from './interfaces'
 
-export default function (statement :string) :Promise<string> {
+export default function (statement :string) :Promise<Response> {
 
     if (statement.includes("what time is it") || 
         statement.includes("do you have the time") ||
@@ -9,6 +10,10 @@ export default function (statement :string) :Promise<string> {
         statement.includes("todays date")) {
         return commands.getTheTime();
     }
+
+    else if (statement.includes("weather")) {
+        return commands.weather(statement);
+    }    
 
     else if (statement.includes("what's your name") || statement.includes("who are you")) {
         return commands.getName();
@@ -56,5 +61,5 @@ export default function (statement :string) :Promise<string> {
         }
     }
 
-    return Promise.resolve("");
+    return Promise.resolve({text:""});
 }

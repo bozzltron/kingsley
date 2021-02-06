@@ -2,13 +2,15 @@
 interface Session {
     active :boolean,
     name :string,
-    voice :number
+    voice :number,
+    city :string
 }
 
 let defaults = {
     active: false,
     name: 'Kingsley',
-    voice: 51
+    voice: 51,
+    city: 'Waukee,Iowa'
 };
 
 let session = {

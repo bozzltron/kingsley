@@ -22,12 +22,13 @@ export default {
         hours = hours % 12;
         hours = hours ? hours : 12; 
         var minutesString :string = minutes < 10 ? '0'+ minutes : '' + minutes;
-        return Promise.resolve(`${hours}:${minutesString} ${ampm} on ${dayOfTheWeek} ${month} ${day}, ${year}`);
+        return Promise.resolve({text:`${hours}:${minutesString} ${ampm} on ${dayOfTheWeek} ${month} ${day}, ${year}`});
     },
 
     greeting: function() {
-        var hours = new Date().getHours();
-        return Promise.resolve(hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening")
+        let hours = new Date().getHours();
+        let text = hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening";
+        return Promise.resolve({text: text})
     },
 
     wikipedia: async function(statement :string){
@@ -49,71 +50,81 @@ export default {
         } catch (e) {
             console.error(e);
         }
-        return extract;
+        return {text:extract};
     },
 
     acknowledge: function(statement :string) {
         session.activate();
         let acks = ["Yes?", "Sup", "I hear you"]
         let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve(acks[random]);
+        return Promise.resolve({text:acks[random]});
     },
 
     getName: function(){
-        return Promise.resolve(`I'm ${session.get().name}`)
+        return Promise.resolve({text: `I'm ${session.get().name}`})
     },
 
     thanks: function(){
         let random = Math.floor(Math.random() * 3 + 1);
         let acks = ["Thank you", "I try", "That's why I'm here."]
-        return Promise.resolve(acks[random]);
+        return Promise.resolve({text:acks[random]});
     },
 
     youAreWelcome: function(){
         let acks = ["No problem", "You are welcome", "You are very welcome."]
         let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve(acks[random]);
+        return Promise.resolve({text:acks[random]});
     },
 
     hello: function(){
-        return Promise.resolve("Hello")
+        return Promise.resolve({text:"Hello"})
     },
 
     voices: ()=>{
         let voices = window.speechSynthesis.getVoices().map((voice :any, index :number)=>{ return index + " " +voice.name });
-        return Promise.resolve(voices.join(','))
+        return Promise.resolve({text:voices.join(',')})
     },
 
     setVoice: (statement :string)=>{
         let voice = parseInt(statement.replace( /^\D+/g, ''), 10);
         if(voice >= 0){
             session.set({voice:voice});
-            return Promise.resolve("How do I sound now?")
+            return Promise.resolve({text:"How do I sound now?"})
         } else {
-            return Promise.resolve("I need the number of the voice you want.")
+            return Promise.resolve({text:"I need the number of the voice you want."})
         }
     },
 
-    weather: (statement :string)=> {
-        // base_url="https://api.openweathermap.org/data/2.5/weather?"
-        // city_name="Waukee, Iowa"
-        // if "in" in statement:
-        //     city_name = statement.split("in")[1]
-        // complete_url=base_url+"appid="+api_key+"&q="+city_name+"&units=imperial"
-        // response = requests.get(complete_url)
-        // x=response.json()
+    weather: async (statement :string)=> {
+        let city = statement.split('in').length > 1 ? statement.split('in')[1] : session.get().city;
+        let result = await API.get('weather', '/weather', {
+            queryStringParameters: { 
+                city: city
+            }
+        })
+        let text = "";
+        if(result.weather.length > 0) {
+            let description = `It's ${result.weather[0].description}. `;
+            let tempature = `The tempertature is ${result.main.temp} degrees Farenhiet, but feels like ${result.main.feels_like}. `;
+            let humidity = `The humidity is ${result.main.humidity} percent.`
+            text = description + tempature + humidity;
+        } else {
+            text = `I couldn't find the weather for ${city}`
+        }
+
+        return {text:text};
     },
 
     tryAgain: () => {
         let acks = ["Come again?", "Can you say that again?", "I beg your pardon?", "I may not have an answer for that.  Try saying that another way."]
         let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve(acks[random]);
+        return Promise.resolve({text:acks[random]});
     },
 
     status: () => {
         let acks = ["I am a program.  I have no feelings.  But if it makes you feel better, I'm fantastic.", "Considering the circumstances, good.", "I feel like a koala bear crapped a rainbow on my brain."]
         let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve(acks[random]);
+        return Promise.resolve({text:acks[random]});
     }
 
 }

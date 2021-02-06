@@ -1,10 +1,11 @@
-import 'url-search-params-polyfill';
+import 'url-search-params-polyfill'
 import listen from './listen'
 import speak from './speak'
 import interpret from './interpret'
 import commands from './commands'
 import "./style.css";
 import session from './session'
+import { Response } from './interfaces'
 
 var el: HTMLElement = document.querySelector('.activate');
 
@@ -19,11 +20,11 @@ function createMessage(message: string) {
   document.querySelector('.messages').appendChild(el);
 }
 
-function respond(response :string) {
+function respond(response :Response) {
   if (!response) return Promise.resolve();
   if(session.get().active) {
-    createMessage("Response: " + response);
-    return speak(response);
+    createMessage("Response: " + response.text);
+    return speak(response.text);
   } else {
     createMessage(`Are you talking to me? "Say, hey ${session.get().name}".`);
     return Promise.resolve();
@@ -42,7 +43,8 @@ el.onclick = async (e: Event) => {
 
   clearMessages();
   session.activate();
-  await speak(await commands.greeting() + ". I'm " + session.get().name);
+  let greeting = await commands.greeting();
+  await speak(greeting.text + ". I'm " + session.get().name);
 
   while (true) {
     try {
@@ -58,7 +60,7 @@ el.onclick = async (e: Event) => {
         let response = await interpret(statement);
         await respond(response);
         if (confidence < 0.5 && session.get().active) {
-          await respond("Can you speak clearly?  I didn't hear you very well.")
+          await respond({text:"Can you speak clearly?  I didn't hear you very well."})
         }         
       }
       await sleep(0.1);
