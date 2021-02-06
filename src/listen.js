@@ -22,6 +22,10 @@ function listen() {
             resolve(event.results);
         };
 
+        recognition.onend = (event) => {
+            resolve({results: []});
+        };
+
         recognition.start();
 
     })
