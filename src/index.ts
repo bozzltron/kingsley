@@ -1,81 +1,66 @@
-import "@babel/polyfill";
 import 'url-search-params-polyfill';
 import listen from './listen'
 import speak from './speak'
 import interpret from './interpret'
-import { SpeechEvent } from "./types";
 import commands from './commands'
 import "./style.css";
 
 var name = "Kingsley";
-var el :HTMLElement = document.querySelector('.activate');
+var el: HTMLElement = document.querySelector('.activate');
 
 function clearMessages() {
   document.querySelector('.messages').innerHTML = '';
 }
 
-function createMessage(message :string){
+function createMessage(message: string) {
   let el = document.createElement('div');
   el.className = 'message';
   el.textContent = message;
   document.querySelector('.messages').appendChild(el);
 }
 
-function respond(response :string) {
+async function respond(response :string) {
   createMessage("Response: " + response);
-  speak(response);
-  setTimeout(()=>{
+  await speak(response);
+  setTimeout(() => {
     clearMessages();
   }, 40000)
 }
 
-function handler(event :SpeechEvent) {
-  clearMessages();
-  console.log('onresult', event);
-  var statement = event.results[0][0].transcript.toLowerCase();
-  let confidence = event.results[0][0].confidence;
-  createMessage("I heard: " + statement);
-  console.log('Confidence: ' + event.results[0][0].confidence);
-  if(confidence < 0.5) {
-    respond("Can you speak clearly?  I didn't hear you very well.")
-  }
-  interpret(statement).then(respond);
+async function sleep(seconds :number) {
+  return new Promise((resolve)=>{
+    setTimeout(resolve, seconds * 1000);
+  })
 }
 
-el.onclick = async function(e :Event){
+el.onclick = async (e: Event) => {
 
-  var mouth = speak(await commands.greeting() + ". I'm " + name);
-  var ear = listen(handler);
-  var listening = false;
-  var startListening =  ()=>{
-    return setInterval(()=>{
-      if(!listening){
-        console.log("start listening");
-        ear.start();
-        listening = true;
+  console.log('say greeting')
+  await speak(await commands.greeting() + ". I'm " + name);
+
+  while (true) {
+    try {
+      console.log('start listening')
+      let results = await listen();
+      console.log('handle results', results);
+      for (let i = 0; i < results.length; i++) {
+        let result = results[i][0];
+        var statement = result.transcript.toLowerCase();
+        let confidence = result.confidence;
+        clearMessages();
+        createMessage("I heard: " + statement);
+        let response = await interpret(statement);
+        await respond(response);
+        if (confidence < 0.5) {
+          await respond("Can you speak clearly?  I didn't hear you very well.")
+        }
       }
-    }, 2000);
-  }
-  var interval = startListening();
-
-  mouth.onstart = (event :Event) => {
-    console.log("stop listening");
-    console.log("start speaking");
-    ear.stop();
-    listening = false;
-    clearInterval(interval);
-  }  
-
-  mouth.onend = (event :Event) => {
-    console.log("stop speaking");
-    setTimeout(()=>{
-      interval = startListening();
-    },1000)
-  }  
-
-  ear.onend = () => {
-    console.log("stop listening");
-    listening = false;
+      await sleep(1);
+    } catch (e) {
+      if(e.error != 'no-speech') {
+        console.error(e);
+      }
+    }
   }
 
 }

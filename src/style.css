@@ -3,6 +3,12 @@
     margin-top:25%;
 }
 
+@media screen and (max-width: 600px) {
+  .messages {
+    margin-top:50%;
+  }
+}
+
 .message {
     animation-duration: 1s;
     animation-name: slidein;

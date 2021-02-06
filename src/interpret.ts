@@ -23,6 +23,10 @@ export default function (statement :string) :Promise<string> {
         return commands.hello();
     }
 
+    else if (statement.includes("thanks") || statement.includes("thank you")) {
+        return commands.youAreWelcome();
+    }
+
     else if (statement.includes("voice options")) {
         return commands.voices();
     }

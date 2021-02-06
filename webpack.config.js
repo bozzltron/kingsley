@@ -27,6 +27,11 @@ module.exports = {
       },
     ],
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   devServer: {
     contentBase: path.join(__dirname, 'dist'),
     compress: true,
@@ -36,7 +41,7 @@ module.exports = {
     extensions: [ '.ts', '.js' ],
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [

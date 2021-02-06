@@ -59,6 +59,12 @@ export default {
         return Promise.resolve(acks[random]);
     },
 
+    youAreWelcome: function(){
+        let acks = ["No problem", "You are welcome", "You are very welcome."]
+        let random = Math.floor(Math.random() * acks.length + 1);
+        return Promise.resolve(acks[random]);
+    },
+
     hello: function(){
         return Promise.resolve("Hello")
     },
@@ -76,6 +82,16 @@ export default {
         } else {
             return Promise.resolve("I need the number of the voice you want.")
         }
+    },
+
+    weather: (statement :string)=> {
+        // base_url="https://api.openweathermap.org/data/2.5/weather?"
+        // city_name="Waukee, Iowa"
+        // if "in" in statement:
+        //     city_name = statement.split("in")[1]
+        // complete_url=base_url+"appid="+api_key+"&q="+city_name+"&units=imperial"
+        // response = requests.get(complete_url)
+        // x=response.json()
     }
 
 }
