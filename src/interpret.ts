@@ -5,8 +5,10 @@ import { Response } from './interfaces'
 export default function (statement :string) :Promise<Response> {
 
     if (statement.includes("what time is it") || 
+    statement.includes("what's the time") || 
         statement.includes("do you have the time") ||
         statement.includes("what is the date") ||
+        statement.includes("what's is the date") ||
         statement.includes("todays date")) {
         return commands.getTheTime();
     }
