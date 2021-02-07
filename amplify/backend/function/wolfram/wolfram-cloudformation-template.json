@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/wolfram-314759675a7978432f46-build.zip"
+          "S3Key": "amplify-builds/wolfram-36526562725041415266-build.zip"
         }
       }
     },
