@@ -47,19 +47,9 @@ export default function (statement :string) :Promise<Response> {
         return commands.setVoice(statement);
     }
 
-    else if (statement.includes("tell me about") || 
-        statement.includes("what is") || 
-        statement.includes("what are") || 
-        statement.includes("who is") ||
-        statement.includes("who are")) {
+    else if (statement.includes("tell me about") || statement.includes("wikipedia")) {
         return commands.wikipedia(statement);
     }
 
-    else {
-        if(session.get().active) {
-            return commands.tryAgain();
-        }
-    }
-
-    return Promise.resolve({text:""});
+    return commands.hypothesize(statement);
 }

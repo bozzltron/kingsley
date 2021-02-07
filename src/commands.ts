@@ -1,9 +1,10 @@
 import Amplify, { API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import session from './session';
+import { Response } from './interfaces'
 Amplify.configure(awsconfig);
 
-export default {
+const commands = {
 
     getTheTime: ()=>{
         const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -125,6 +126,28 @@ export default {
         let acks = ["I am a program.  I have no feelings.  But if it makes you feel better, I'm fantastic.", "Considering the circumstances, good.", "I feel like a koala bear crapped a rainbow on my brain."]
         let random = Math.floor(Math.random() * acks.length + 1);
         return Promise.resolve({text:acks[random]});
+    }, 
+
+    wolfram: async (statement :string) => {
+        let result = await API.get('wolfram', '/wolfram', {
+            queryStringParameters: { 
+                query: statement
+            }
+        })
+        let resultPod = result.pods.find((item :any) => { return item.title === 'Result'});
+        return {text: resultPod.subpods[0].plaintext || "" };
+    },
+
+    hypothesize: async(statement :string) => {
+        let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement)])
+        let sorted :Response[] = results.sort((a, b) => {
+            if( a.text.length > b.text.length ) return 1;
+            if( a.text.length > b.text.length ) return -1;
+        });
+        console.log('sorted', sorted);
+        return sorted[0];
     }
 
 }
+
+export default commands;

@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/weather-30725137695662696630-build.zip"
+          "S3Key": "amplify-builds/weather-4c325a5a6e436c31566e-build.zip"
         }
       }
     },

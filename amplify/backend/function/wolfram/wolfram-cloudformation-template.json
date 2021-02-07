@@ -33,12 +33,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wikipedia",
+            "wolfram",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wikipedia",
+                  "wolfram",
                   "-",
                   {
                     "Ref": "env"
@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/wikipedia-34687373326638383672-build.zip"
+          "S3Key": "amplify-builds/wolfram-314759675a7978432f46-build.zip"
         }
       }
     },
@@ -79,12 +79,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "kingsleyLambdaRoleaef7e339",
+            "kingsleyLambdaRoled6f5f20d",
             {
               "Fn::Join": [
                 "",
                 [
-                  "kingsleyLambdaRoleaef7e339",
+                  "kingsleyLambdaRoled6f5f20d",
                   "-",
                   {
                     "Ref": "env"

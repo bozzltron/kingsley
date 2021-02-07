@@ -1,4 +1,5 @@
-const fetch = require('node-fetch');
+
+const WolframAlphaAPI = require('wolfram-alpha-api');
 
 exports.handler = async (event) => {
     let response = {};
@@ -11,8 +12,9 @@ exports.handler = async (event) => {
     }
 
     try {
-        let city = event.queryStringParameters['city'];
-        const result = await fetch(`https://api.openweathermap.org/data/2.5/weather?appid=${process.env.API_KEY}&q=${city}&units=imperial`).then(res => res.json())
+        let query = event.queryStringParameters['query'];
+        const waApi = WolframAlphaAPI(process.env.API_KEY);
+        let result = await waApi.getFull(query);
         response = {
             statusCode: 200,
             headers: {

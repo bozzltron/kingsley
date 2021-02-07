@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/wolfram",
+            "lambdaFunction": "wolfram",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/wolfram"
+        }
+    ],
+    "resourceName": "wolfram",
+    "apiName": "wolfram",
+    "functionArns": [
+        {
+            "lambdaFunction": "wolfram"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-kingsley-prod-145313-authRole",
+        "unAuthRoleName": "amplify-kingsley-prod-145313-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "wolfram",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
