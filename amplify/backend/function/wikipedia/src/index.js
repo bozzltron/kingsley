@@ -1,4 +1,23 @@
 const wiki = require('wikipedia');
+const pos = require('pos');
+
+function filterWordsByTag(text , targetTag) {
+    var words = new pos.Lexer().lex(text);
+    var tagger = new pos.Tagger();
+    var taggedWords = tagger.tag(words);
+    var nouns = "";
+    for(let i=0; i<taggedWords.length; i++){
+        var taggedWord = taggedWords[i];
+        var word = taggedWord[0];
+        var tag = taggedWord[1];
+        if(tag === targetTag) {
+            nouns = nouns + " " + word;
+        }
+    }
+
+    console.log('nouns', nouns);
+    return nouns;
+}
 
 exports.handler = async (event) => {
     let response = {};
@@ -7,22 +26,24 @@ exports.handler = async (event) => {
         return {
             statusCode: 200,            
             headers: {
+                "Access-Control-Allow-Headers" : "*",
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*"
+                "Access-Control-Allow-Methods": "OPTIONS,GET"
             },
             body: {}
         }
     }
 
     try {
-        const page = await wiki.page(event.queryStringParameters['query']);
+        const page = await wiki.page(filterWordsByTag(event.queryStringParameters['query'], "NNP"));
         const summary = await page.summary();
         console.log(summary);
         response = {
             statusCode: 200,
             headers: {
+                "Access-Control-Allow-Headers" : "*",
                 "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "*"
+                "Access-Control-Allow-Methods": "OPTIONS,GET"
             },
             body: JSON.stringify(summary),
         };
@@ -30,6 +51,11 @@ exports.handler = async (event) => {
         console.log(error);
         response = {
             statusCode: 500,
+            headers: {
+                "Access-Control-Allow-Headers" : "*",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "OPTIONS,GET"
+            },
             body: error
         };
     }

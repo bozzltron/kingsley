@@ -1,17 +1,22 @@
-const WolframAlphaAPI = require('wolfram-alpha-api');
-async function go() {
-    
- try {
-    const waApi = WolframAlphaAPI(process.env.API_KEY);
-    let result = await waApi.getFull('HOW MANY STATES IN THE UNITED STATES');
-    console.log(JSON.stringify(result, 2, 2))
-    let resultPod = result.pods.find((item) => { return item.title === 'Result'});
-    console.log('result pod', resultPod)
-    console.log('solution', resultPod.subpods[0].plaintext);
- } catch (e) {
-     console.log(e);
- }
+var pos = require('pos');
 
+
+function filterWordsByTag(text, targetTag) {
+    var words = new pos.Lexer().lex(text);
+    var tagger = new pos.Tagger();
+    var taggedWords = tagger.tag(words);
+    var nouns = "";
+    for(let i=0; i<taggedWords.length; i++){
+        var taggedWord = taggedWords[i];
+        var word = taggedWord[0];
+        var tag = taggedWord[1];
+        if(tag === targetTag) {
+            nouns = nouns + " " + word;
+        }
+    }
+
+    console.log('nouns', nouns);
+    return nouns;
 }
 
-go();
+filterWordsByTag("Who is Joe Biden", "NNP");

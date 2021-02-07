@@ -5,6 +5,7 @@
   "main": "index.js",
   "license": "Apache-2.0",
   "dependencies": {
+    "pos": "^0.4.2",
     "wikipedia": "^1.0.1"
   }
 }

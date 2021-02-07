@@ -2,6 +2,7 @@ import Amplify, { API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import session from './session';
 import { Response } from './interfaces'
+
 Amplify.configure(awsconfig);
 
 const commands = {
@@ -33,18 +34,11 @@ const commands = {
     },
 
     wikipedia: async function(statement :string){
-        //let nouns = wordpos.getNouns(query.replace("wikipedia", "")); 
         let extract :string = "I didn't find anything";
         try {
-            let noun = statement
-                        .replace('tell me about', '')
-                        .replace('what is', '')
-                        .replace('what are', '')
-                        .replace('who are', '')
-                        .replace('who is', '');
             let summary = await API.get('wikipedia', '/wikipedia', {
                 queryStringParameters: { 
-                    query: noun
+                    query: statement
                 }
             })
             extract = summary.extract;
@@ -106,7 +100,7 @@ const commands = {
         let text = "";
         if(result.weather.length > 0) {
             let description = `It's ${result.weather[0].description}. `;
-            let tempature = `The tempertature is ${result.main.temp} degrees Farenhiet, but feels like ${result.main.feels_like}. `;
+            let tempature = `The temperature is ${result.main.temp} degrees Farenhiet, but feels like ${result.main.feels_like}. `;
             let humidity = `The humidity is ${result.main.humidity} percent.`
             text = description + tempature + humidity;
         } else {
@@ -135,7 +129,7 @@ const commands = {
             }
         })
         let resultPod = result.pods.find((item :any) => { return item.title === 'Result'});
-        return {text: resultPod.subpods[0].plaintext || "" };
+        return {text: resultPod && resultPod.subpods ? resultPod.subpods[0].plaintext : "" };
     },
 
     hypothesize: async(statement :string) => {
