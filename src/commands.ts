@@ -123,13 +123,17 @@ const commands = {
     }, 
 
     wolfram: async (statement :string) => {
+        let response = "";
         let result = await API.get('wolfram', '/wolfram', {
             queryStringParameters: { 
                 query: statement
             }
         })
-        let resultPod = result.pods.find((item :any) => { return item.title === 'Result'});
-        return {text: resultPod && resultPod.subpods ? resultPod.subpods[0].plaintext : "" };
+        if(result && result.pods){
+            let resultPod = result.pods.find((item :any) => { return item.title === 'Result'});
+            response = resultPod && resultPod.subpods ? resultPod.subpods[0].plaintext : ""
+        }
+        return { text: response };
     },
 
     hypothesize: async(statement :string) => {
