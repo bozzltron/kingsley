@@ -35,8 +35,11 @@ exports.handler = async (event) => {
     }
 
     try {
-        const page = await wiki.page(filterWordsByTag(event.queryStringParameters['query'], "NNP"));
-        const summary = await page.summary();
+        let query = event.queryStringParameters['query'];
+        console.log("query", query);
+        let nouns = filterWordsByTag(query,  "NNP");
+        console.log("nouns", nouns);
+        const summary = await wiki.summary(nouns);
         console.log(summary);
         response = {
             statusCode: 200,

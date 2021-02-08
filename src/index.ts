@@ -23,6 +23,9 @@ function createMessage(message: string) {
 function respond(response :Response) {
   if (!response) return Promise.resolve();
   if(session.get().active) {
+    if(response.text === "") {
+      response.text = "I didn't find anything"
+    }
     createMessage("Response: " + response.text);
     return speak(response.text);
   } else {

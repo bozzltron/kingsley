@@ -34,18 +34,19 @@ const commands = {
     },
 
     wikipedia: async function(statement :string){
-        let extract :string = "I didn't find anything";
+        let extract :string = "";
+        let summary :any = {};
         try {
-            let summary = await API.get('wikipedia', '/wikipedia', {
+            summary = await API.get('wikipedia', '/wikipedia', {
                 queryStringParameters: { 
                     query: statement
                 }
             })
-            extract = summary.extract;
         } catch (e) {
             console.error(e);
+            return {text:""};
         }
-        return {text:extract};
+        return {text:summary.extract, image: summary && summary.thumbnail ? summary.thumbnail.source : "" };
     },
 
     acknowledge: function(statement :string) {
@@ -135,8 +136,8 @@ const commands = {
     hypothesize: async(statement :string) => {
         let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement)])
         let sorted :Response[] = results.sort((a, b) => {
-            if( a.text.length > b.text.length ) return 1;
             if( a.text.length > b.text.length ) return -1;
+            if( a.text.length > b.text.length ) return 1;
         });
         console.log('sorted', sorted);
         return sorted[0];
