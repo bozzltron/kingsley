@@ -5,6 +5,10 @@ import { Response } from './interfaces'
 
 Amplify.configure(awsconfig);
 
+function getRandomItemFrom(array :Array<string>) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
 const commands = {
 
     getTheTime: ()=>{
@@ -52,8 +56,7 @@ const commands = {
     acknowledge: function(statement :string) {
         session.activate();
         let acks = ["Yes?", "Sup", "I hear you"]
-        let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve({text:acks[random]});
+        return Promise.resolve({text:getRandomItemFrom(acks)});
     },
 
     getName: function(){
@@ -61,15 +64,13 @@ const commands = {
     },
 
     thanks: function(){
-        let random = Math.floor(Math.random() * 3 + 1);
         let acks = ["Thank you", "I try", "That's why I'm here."]
-        return Promise.resolve({text:acks[random]});
+        return Promise.resolve({text:getRandomItemFrom(acks)});
     },
 
     youAreWelcome: function(){
         let acks = ["No problem", "You are welcome", "You are very welcome."]
-        let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve({text:acks[random]});
+        return Promise.resolve({text:getRandomItemFrom(acks)});
     },
 
     hello: function(){
@@ -112,15 +113,13 @@ const commands = {
     },
 
     tryAgain: () => {
-        let acks = ["Come again?", "Can you say that again?", "I beg your pardon?", "I may not have an answer for that.  Try saying that another way."]
-        let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve({text:acks[random]});
+        let acks = ["Come again?", "Can you say that again?", "I beg your pardon?", "I may not have an answer for that.  Try saying that another way."];
+        return Promise.resolve({text:getRandomItemFrom(acks)});
     },
 
     status: () => {
-        let acks = ["I am a program.  I have no feelings.  But if it makes you feel better, I'm fantastic.", "Considering the circumstances, good.", "I feel like a koala bear crapped a rainbow on my brain."]
-        let random = Math.floor(Math.random() * acks.length + 1);
-        return Promise.resolve({text:acks[random]});
+        let acks = ["I am a program.  I have no feelings.  But if it makes you feel better, I'm fantastic.", "Considering the circumstances, good.", "I feel like a koala bear crapped a rainbow on my brain."];
+        return Promise.resolve({text:getRandomItemFrom(acks)});
     }, 
 
     wolfram: async (statement :string) => {
