@@ -24,7 +24,9 @@ function createMessage(response :Response) {
   }
 
   if(response.text) {
-    el.textContent = "Response: " + response.text
+    let p = document.createElement('p');
+    p.textContent = response.text;
+    el.appendChild(p);
   }
   
   document.querySelector('.messages').appendChild(el);

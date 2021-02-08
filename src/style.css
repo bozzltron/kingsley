@@ -3,6 +3,12 @@
     margin-top:25%;
 }
 
+.messages img {
+  float:left;
+  margin-right:0.5em;
+  margin-bottom: 0.5em;
+}
+
 @media screen and (max-width: 1000px) {
   .messages {
     margin-top:50%;
