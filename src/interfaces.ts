@@ -1,3 +1,4 @@
 export interface Response {
-    text :string
+    text :string,
+    image ?:string
 }

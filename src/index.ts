@@ -13,10 +13,20 @@ function clearMessages() {
   document.querySelector('.messages').innerHTML = '';
 }
 
-function createMessage(message: string) {
+function createMessage(response :Response) {
   let el = document.createElement('div');
   el.className = 'message';
-  el.textContent = message;
+  
+  if(response.image){
+    let img = document.createElement('img');
+    img.src = response.image;
+    el.appendChild(img);
+  }
+
+  if(response.text) {
+    el.textContent = "Response: " + response.text
+  }
+  
   document.querySelector('.messages').appendChild(el);
 }
 
@@ -26,10 +36,10 @@ function respond(response :Response) {
     if(response.text === "") {
       response.text = "I didn't find anything"
     }
-    createMessage("Response: " + response.text);
+    createMessage(response);
     return speak(response.text);
   } else {
-    createMessage(`Are you talking to me? "Say, hey ${session.get().name}".`);
+    createMessage({text:`Are you talking to me? "Say, hey ${session.get().name}".`});
     return Promise.resolve();
   }
 }
@@ -40,7 +50,7 @@ function sleep(seconds :number) {
   })
 }
 
-createMessage("Tap me to get started.");
+createMessage({text:"Tap me to get started."});
 
 el.onclick = async (e: Event) => {
 
@@ -59,7 +69,7 @@ el.onclick = async (e: Event) => {
         var statement = result.transcript.toLowerCase();
         let confidence = result.confidence;
         clearMessages();
-        createMessage("I heard: " + statement);
+        createMessage({text: "I heard: " + statement});
         let response = await interpret(statement);
         await respond(response);
         if (confidence < 0.5 && session.get().active) {
