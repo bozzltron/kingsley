@@ -39,7 +39,7 @@ function respond(response :Response) {
       response.text = "I didn't find anything"
     }
     createMessage(response);
-    return speak(response.text);
+    return speak("Response: " + response.text);
   } else {
     createMessage({text:`Are you talking to me? "Say, hey ${session.get().name}".`});
     return Promise.resolve();
@@ -59,7 +59,7 @@ el.onclick = async (e: Event) => {
   clearMessages();
   session.activate();
   let greeting = await commands.greeting();
-  await speak(greeting.text + ". I'm " + session.get().name);
+  let mouth = await speak(greeting.text + ". I'm " + session.get().name);
 
   while (true) {
     try {

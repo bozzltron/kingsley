@@ -136,8 +136,25 @@ const commands = {
         return { text: response };
     },
 
+    news: async(statement :string) => {
+        let response = "";
+        let query = statement.split('on')[1] || '';
+        let image :any = null;
+        let result = await API.get('news', '/news', {
+            queryStringParameters: { 
+                query: query
+            }
+        })
+        console.log(result);
+        if(result && result.values){
+            let first = result.values[0];
+            response = `I found an article. ${first.title}  ${first.description}`;
+        }
+        return { text: response, image: image };
+    },
+
     hypothesize: async(statement :string) => {
-        let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement)])
+        let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement), commands.news(statement)])
         let sorted :Response[] = results.sort((a, b) => {
             if( a.text.length > b.text.length ) return -1;
             if( a.text.length > b.text.length ) return 1;

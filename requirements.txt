@@ -1,8 +1,0 @@
-pyttsx3
-SpeechRecognition
-wikipedia
-requests
-ecapture
-wolframalpha
-comtypes
-pyaudio

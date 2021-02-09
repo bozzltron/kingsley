@@ -53,5 +53,9 @@ export default function (statement :string) :Promise<Response> {
         return commands.wikipedia(statement);
     }
 
+    else if (statement.includes("whats the news on")) {
+        return commands.news(statement);
+    }
+
     return commands.hypothesize(statement);
 }

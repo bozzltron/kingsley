@@ -1,21 +1,25 @@
-const pos = require('pos');
+var unirest = require("unirest");
 
-function filterWordsByTag(text , targetTag) {
-    var words = new pos.Lexer().lex(text);
-    var tagger = new pos.Tagger();
-    var taggedWords = tagger.tag(words);
-    var nouns = "";
-    for(let i=0; i<taggedWords.length; i++){
-        var taggedWord = taggedWords[i];
-        var word = taggedWord[0];
-        var tag = taggedWord[1];
-        if(tag === targetTag) {
-            nouns = nouns + " " + word;
-        }
-    }
+var req = unirest("GET", "https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI");
 
-    console.log('nouns', nouns);
-    return nouns;
-}
+req.query({
+	"q": "taylor swift",
+	"pageNumber": "1",
+	"pageSize": "10",
+	"autoCorrect": "true",
+	"fromPublishedDate": "null",
+	"toPublishedDate": "null"
+});
 
-console.log("test", filterWordsByTag("Who is Joe Biden", "NNP"));
+req.headers({
+	"x-rapidapi-key": process.env.API_KEY,
+	"x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
+	"useQueryString": true
+});
+
+
+req.end(function (res) {
+	if (res.error) throw new Error(res.error);
+
+	console.log(JSON.stringify(res.body,2,2));
+});

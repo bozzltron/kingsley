@@ -40,6 +40,7 @@
     "@babel/polyfill": "^7.12.1",
     "aws-amplify": "^3.3.17",
     "pos": "^0.4.2",
+    "unirest": "^0.6.0",
     "url-search-params-polyfill": "^8.1.0",
     "wikipedia": "^1.0.1",
     "wolfram-alpha-api": "https://products.wolframalpha.com/api/libraries/javascript/wolfram-alpha-api-1.0.0-rc.1.tgz"

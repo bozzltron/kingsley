@@ -33,12 +33,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "wikipedia",
+            "news",
             {
               "Fn::Join": [
                 "",
                 [
-                  "wikipedia",
+                  "news",
                   "-",
                   {
                     "Ref": "env"
@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/wikipedia-484944784c6e454f4b68-build.zip"
+          "S3Key": "amplify-builds/news-63452b412f7256797335-build.zip"
         }
       }
     },
@@ -79,12 +79,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "kingsleyLambdaRoleaef7e339",
+            "kingsleyLambdaRole7d94b32b",
             {
               "Fn::Join": [
                 "",
                 [
-                  "kingsleyLambdaRoleaef7e339",
+                  "kingsleyLambdaRole7d94b32b",
                   "-",
                   {
                     "Ref": "env"
