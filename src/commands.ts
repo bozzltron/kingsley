@@ -140,17 +140,26 @@ const commands = {
         let response = "";
         let query = statement.split('on')[1] || '';
         let image :any = null;
+        let url :string = "";
         let result = await API.get('news', '/news', {
             queryStringParameters: { 
                 query: query
             }
         })
         console.log(result);
-        if(result && result.values){
-            let first = result.values[0];
-            response = `I found an article. ${first.title}  ${first.description}`;
+        interface newsItem {
+            title :string,
+            provider: {
+                name :string
+            }
         }
-        return { text: response, image: image };
+        if(result && result.value){
+            let first = result.value[0];
+            let image = first.image.thumbnail;
+            let url = first.url;
+            response = `I found ${result.value.length} articles: ` + result.value.map((item :newsItem, index :number)=>`${index + 1}. ${item.title} from ${item.provider.name}`).join(" ");
+        }
+        return { text: response, image: image, url:url };
     },
 
     hypothesize: async(statement :string) => {

@@ -38,8 +38,8 @@ function respond(response :Response) {
     if(response.text === "") {
       response.text = "I didn't find anything"
     }
-    createMessage(response);
-    return speak("Response: " + response.text);
+    createMessage(Object.assign({}, response, {text: "Response:" + response.text}));
+    return speak(response.text);
   } else {
     createMessage({text:`Are you talking to me? "Say, hey ${session.get().name}".`});
     return Promise.resolve();
