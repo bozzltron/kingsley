@@ -33,13 +33,14 @@ function createMessage(response :Response) {
 }
 
 function respond(response :Response) {
+  response.speak = response.speak !== false;
   if (!response) return Promise.resolve();
   if(session.get().active) {
     if(response.text === "") {
       response.text = "I didn't find anything"
     }
     createMessage(Object.assign({}, response, {text: "Response:" + response.text}));
-    return speak(response.text);
+    return response.speak ? speak(response.text) : Promise.resolve();
   } else {
     createMessage({text:`Are you talking to me? "Say, hey ${session.get().name}".`});
     return Promise.resolve();
@@ -60,6 +61,7 @@ el.onclick = async (e: Event) => {
   session.activate();
   let greeting = await commands.greeting();
   let mouth = await speak(greeting.text + ". I'm " + session.get().name);
+  sleep(0.5);
 
   while (true) {
     try {

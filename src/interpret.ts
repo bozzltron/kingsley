@@ -25,16 +25,16 @@ export default function (statement :string) :Promise<Response> {
         return commands.status();
     }
 
+    else if (statement.includes("hello") || statement.includes("hi")) {
+        return commands.hello();
+    }
+
     else if (statement.includes("kingsley")) {
         return commands.acknowledge(statement);
     }
 
     else if (statement.includes("good job") || statement.includes("nice work") ) {
         return commands.thanks();
-    }
-
-    else if (statement.includes("hello") || statement.includes("hi")) {
-        return commands.hello();
     }
 
     else if (statement.includes("thanks") || statement.includes("thank you")) {
@@ -55,6 +55,10 @@ export default function (statement :string) :Promise<Response> {
 
     else if (statement.includes("whats the news on")) {
         return commands.news(statement);
+    }
+
+    else if (statement.includes("give me the rundown")) {
+        return commands.rundown();
     }
 
     return commands.hypothesize(statement);

@@ -6,10 +6,6 @@ export default function speak(text) {
         synth.cancel();
     }
 
-    if(text.length > 300) {
-        text = "I'll let you read this."
-    }
-
     return new Promise( (resolve,reject) => {
         var mouth = new SpeechSynthesisUtterance(text);
         var voices = synth.getVoices();

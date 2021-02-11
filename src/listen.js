@@ -18,14 +18,17 @@ function listen() {
         recognition.onerror = reject;
 
         recognition.onresult = (event) => {
+            recognition.stop();
             console.log("gathered result", event.results);
             resolve(event.results);
         };
 
         recognition.onend = (event) => {
+            recognition.stop();
             resolve({results: []});
         };
-
+        
+        recognition.stop();
         recognition.start();
 
     })

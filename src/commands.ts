@@ -79,7 +79,7 @@ const commands = {
 
     voices: ()=>{
         let voices = window.speechSynthesis.getVoices().map((voice :any, index :number)=>{ return index + " " +voice.name });
-        return Promise.resolve({text:voices.join(',')})
+        return Promise.resolve({text:voices.join(','), speak:false})
     },
 
     setVoice: (statement :string)=>{
@@ -160,6 +160,12 @@ const commands = {
             response = `I found ${result.value.length} articles: ` + result.value.map((item :newsItem, index :number)=>`${index + 1}. ${item.title} from ${item.provider.name}`).join(" ");
         }
         return { text: response, image: image, url:url };
+    },
+
+    rundown: async() => {
+        let result =  await Promise.all([commands.getTheTime(), commands.weather(session.get().city), commands.news("")]);
+        let text = result.map((response)=>{ return response.text}).join(' ');
+        return {text:text};
     },
 
     hypothesize: async(statement :string) => {
