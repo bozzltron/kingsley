@@ -65,6 +65,12 @@ export default function (statement :string) :Promise<Response> {
         return commands.rundown();
     }
 
+    else if(statement.includes("+") || statement.includes("-") || statement.includes("/") || 
+        statement.includes("*") || statement.includes("%") || statement.includes("distance") || 
+        statement.includes("how long")) {
+        return commands.wolfram(statement);
+    }
+
     else {
         return commands.hypothesize(statement);
     }
