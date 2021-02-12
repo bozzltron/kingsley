@@ -158,7 +158,7 @@ const commands = {
         let result = await API.get('news', '/news', {
             queryStringParameters: { 
                 query: query,
-                sources: session.get().newSources,
+                //sources: session.get().newSources,
                 pageSize:10
             }
         })
@@ -180,13 +180,18 @@ const commands = {
     },
 
     hypothesize: async(statement :string) => {
-        let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement), commands.news(statement)])
-        let sorted :Response[] = results.sort((a, b) => {
-            if( a.text.length > b.text.length ) return -1;
-            if( a.text.length > b.text.length ) return 1;
-        });
+        let sorted :Response [];
+        try {
+            let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement), commands.news(statement)])
+            sorted = results.sort((a, b) => {
+                if( a.text.length > b.text.length ) return -1;
+                if( a.text.length > b.text.length ) return 1;
+            });
+        } catch (e){
+            console.log("error", e);
+        }
         console.log('sorted', sorted);
-        return sorted[0];
+        return sorted.length > 0 ? sorted[0] : {text: ""}
     }
 
 }
