@@ -1,16 +1,12 @@
 
-interface Session {
-    active :boolean,
-    name :string,
-    voice :number,
-    city :string
-}
+import { Session } from './interfaces'
 
 let defaults = {
     active: false,
     name: 'Kingsley',
     voice: 51,
-    city: 'Waukee,Iowa'
+    city: 'Waukee,Iowa',
+    newsSources: 'axios,associated-press,npr,bbc-news'
 };
 
 let session = {

@@ -1,68 +1,46 @@
-var unirest = require("unirest");
+const NewsAPI = require('newsapi');
+const newsapi = new NewsAPI(process.env.API_KEY);
+
+function makeResponse(code, body) {
+    return {
+        statusCode: code,
+        headers: {
+            "Access-Control-Allow-Headers": "*",
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "OPTIONS,GET"
+        },
+        body: body
+    }
+}
 exports.handler = async (event) => {
 
     let response = {};
 
     if (event.httpMethod == 'OPTIONS') {
-        return {
-            statusCode: 200,
-            headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "OPTIONS,GET"
-            },
-            body: {}
-        }
+        return makeResponse(200, {})
     }
 
     try {
         let query = event.queryStringParameters['query'];
-        let pageNumer = event.queryStringParameters['pageNumber'] || "1";
-        let pageSize = event.queryStringParameters['pageSize'] || "10";
-        let fromPublishedDate = event.queryStringParameters['fromPublishedDate'] || "null";
-        let toPublishedDate = event.queryStringParameters['toPublishedDate'] || "null";
+        let category = event.queryStringParameters['category'];
+        let sources = event.queryStringParameters['sources'];
+        let country = event.queryStringParameters['country'];
 
         console.log("params", event.queryStringParameters);
 
-        let res = await unirest
-            .get('https://contextualwebsearch-websearch-v1.p.rapidapi.com/api/search/NewsSearchAPI')
-            .headers({
-                "x-rapidapi-key": process.env.API_KEY,
-                "x-rapidapi-host": "contextualwebsearch-websearch-v1.p.rapidapi.com",
-                "useQueryString": true
-            })
-            .query({
-                "q": query,
-                "pageNumber": pageNumer,
-                "pageSize": pageSize,
-                "autoCorrect": "true",
-                "fromPublishedDate": fromPublishedDate,
-                "toPublishedDate": toPublishedDate
-            })
-            .send()
+        let body = await newsapi.v2.topHeadlines({
+            sources: sources,
+            q: query,
+            category: category,
+            language: 'en',
+            country: country || 'us'
+        });
 
-            console.log('res.body', res.body);
-            response = {
-                statusCode: 200,
-                headers: {
-                    "Access-Control-Allow-Headers": "*",
-                    "Access-Control-Allow-Origin": "*",
-                    "Access-Control-Allow-Methods": "OPTIONS,GET"
-                },
-                body: JSON.stringify(res.body)
-            }
+        response = makeResponse(200, JSON.stringify(body));
 
     } catch (error) {
         console.log(error);
-        response = {
-            statusCode: 500,
-            headers: {
-                "Access-Control-Allow-Headers": "*",
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "OPTIONS,GET"
-            },
-            body: error
-        }
+        response = makeResponse(500, error);
     }
 
     return response;

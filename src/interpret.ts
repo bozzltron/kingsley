@@ -53,13 +53,20 @@ export default function (statement :string) :Promise<Response> {
         return commands.wikipedia(statement);
     }
 
+    else if (statement.includes("read that")) {
+        return commands.read(statement);
+    }
+
     else if (statement.includes("whats the news on")) {
         return commands.news(statement);
     }
 
-    else if (statement.includes("give me the rundown")) {
+    else if (statement.includes("the rundown")) {
         return commands.rundown();
     }
 
-    return commands.hypothesize(statement);
+    else {
+        return commands.hypothesize(statement);
+    }
+
 }

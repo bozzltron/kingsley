@@ -39,6 +39,9 @@ function respond(response :Response) {
     if(response.text === "") {
       response.text = "I didn't find anything"
     }
+    if(response.meta) {
+      session.set({meta: response.meta});
+    }
     createMessage(Object.assign({}, response, {text: "Response:" + response.text}));
     return response.speak ? speak(response.text) : Promise.resolve();
   } else {

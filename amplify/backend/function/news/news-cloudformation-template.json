@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/news-454f694848786c764b53-build.zip"
+          "S3Key": "amplify-builds/news-6c7a4774476564506b6c-build.zip"
         }
       }
     },

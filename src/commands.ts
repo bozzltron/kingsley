@@ -1,7 +1,7 @@
 import Amplify, { API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import session from './session';
-import { Response } from './interfaces'
+import { Response, Article } from './interfaces'
 
 Amplify.configure(awsconfig);
 
@@ -28,12 +28,12 @@ const commands = {
         hours = hours % 12;
         hours = hours ? hours : 12; 
         var minutesString :string = minutes < 10 ? '0'+ minutes : '' + minutes;
-        return Promise.resolve({text:`${hours}:${minutesString} ${ampm} on ${dayOfTheWeek} ${month} ${day}, ${year}`});
+        return Promise.resolve({text:`It's ${hours}:${minutesString} ${ampm} on ${dayOfTheWeek} ${month} ${day}, ${year}.`});
     },
 
     greeting: function() {
         let hours = new Date().getHours();
-        let text = hours>=0 && hours<12 ? "Good Morning" : hours>=12 && hours<18 ? "Good Afternoon" : "Good Evening";
+        let text = hours>=0 && hours<12 ? "Good Morning." : hours>=12 && hours<18 ? "Good Afternoon." : "Good Evening.";
         return Promise.resolve({text: text})
     },
 
@@ -55,12 +55,12 @@ const commands = {
 
     acknowledge: function(statement :string) {
         session.activate();
-        let acks = ["Yes?", "Sup", "I hear you"]
+        let acks = ["Yes?", "Sup.", "I hear you."]
         return Promise.resolve({text:getRandomItemFrom(acks)});
     },
 
     getName: function(){
-        return Promise.resolve({text: `I'm ${session.get().name}`})
+        return Promise.resolve({text: `I'm ${session.get().name}.`})
     },
 
     thanks: function(){
@@ -74,7 +74,7 @@ const commands = {
     },
 
     hello: function(){
-        return Promise.resolve({text:"Hello"})
+        return Promise.resolve({text:"Hello."})
     },
 
     voices: ()=>{
@@ -106,7 +106,7 @@ const commands = {
             let humidity = `The humidity is ${result.main.humidity} percent.`
             text = description + tempature + humidity;
         } else {
-            text = `I couldn't find the weather for ${city}`
+            text = `I couldn't find the weather for ${city}.`
         }
 
         return {text:text};
@@ -136,6 +136,20 @@ const commands = {
         return { text: response };
     },
 
+    read: async(statement :string) => {
+        let meta = session.get().meta;
+        let text;
+        let image;
+        if(!meta || meta.articles.length == 0){
+            text = "I'm not sure what you're talking about."
+        } else {
+            let article :Article = meta.articles[0];
+            text = article.content;
+            image = article.urlToImage;
+        }
+        return {text: text, image: image}
+    },
+
     news: async(statement :string) => {
         let response = "";
         let query = statement.split('on')[1] || '';
@@ -143,23 +157,20 @@ const commands = {
         let url :string = "";
         let result = await API.get('news', '/news', {
             queryStringParameters: { 
-                query: query
+                query: query,
+                sources: session.get().newSources,
+                pageSize:10
             }
         })
         console.log(result);
-        interface newsItem {
-            title :string,
-            provider: {
-                name :string
-            }
-        }
-        if(result && result.value){
-            let first = result.value[0];
-            let image = first.image.thumbnail;
+
+        if(result && result.articles && result.articles.length > 0){
+            let first = result.articles[0];
+            let image = first.urlToImage;
             let url = first.url;
-            response = `I found ${result.value.length} articles: ` + result.value.map((item :newsItem, index :number)=>`${index + 1}. ${item.title} from ${item.provider.name}`).join(" ");
+            response = `I found ${result.articles.length} articles: ` + result.articles.map((item :Article, index :number)=>`${index + 1}. ${item.title}`).join(" ");
         }
-        return { text: response, image: image, url:url };
+        return { text: response, image: image, url:url, meta: {articles: result.articles }};
     },
 
     rundown: async() => {

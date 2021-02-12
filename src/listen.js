@@ -27,7 +27,12 @@ function listen() {
             recognition.stop();
             resolve({results: []});
         };
-        
+
+        recognition.onabout = (event) => {
+            recognition.stop();
+            resolve({results: []});
+        };
+
         recognition.stop();
         recognition.start();
 
