@@ -6,7 +6,7 @@ let defaults = {
     name: 'Kingsley',
     voice: 51,
     city: 'Waukee,Iowa',
-    newsSources: 'axios,associated-press,npr,bbc-news'
+    newsSources: 'axios,associated-press,npr,bbc-news,reuters'
 };
 
 let session = {

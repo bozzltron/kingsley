@@ -182,7 +182,7 @@ const commands = {
     hypothesize: async(statement :string) => {
         let sorted :Response [];
         try {
-            let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement), commands.news(statement)])
+            let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement)])
             sorted = results.sort((a, b) => {
                 if( a.text.length > b.text.length ) return -1;
                 if( a.text.length > b.text.length ) return 1;
