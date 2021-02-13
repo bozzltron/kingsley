@@ -25,7 +25,7 @@ export default function (statement :string) :Promise<Response> {
         return commands.status();
     }
 
-    else if (statement.includes("hello") || statement.includes("hi")) {
+    else if (statement.split(' ').includes("hello") || statement.split(' ').includes("hi")) {
         return commands.hello();
     }
 

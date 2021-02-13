@@ -19,13 +19,13 @@ describe('interpret.js', () => {
 
     it('should understand "who are you?"', async () => {
         expect(await interpret("who are you")).toEqual({
-            text: "I'm Kingsley"
+            text: "I'm Kingsley."
         })
     })
 
     it('should understand "what\'s your name?"', async () => {
         expect(await interpret("what's your name")).toEqual({
-            text: "I'm Kingsley"
+            text: "I'm Kingsley."
         })
     })
 
@@ -33,11 +33,15 @@ describe('interpret.js', () => {
 
         API.get = jest.fn(() =>
             Promise.resolve({
-                "extract": "The cat (Felis catus)."
+                "extract": "The cat (Felis catus).",
+                "thumbnail": {
+                    "source": "some.url"
+                }
             })
         );
         expect(await interpret("what are cats according to wikipedia")).toEqual({
-            text: "The cat (Felis catus)."
+            text: "The cat (Felis catus).",
+            image: "some.url"
         })
 
     })
@@ -92,8 +96,13 @@ describe('interpret.js', () => {
             })
         )
 
-        expect(await interpret("what's the weather like?")).toEqual({text: "It's light snow. The tempertature is 8.37 degrees Farenhiet, but feels like -3.95. The humidity is 82 percent."})
+        expect(await interpret("what's the weather like?")).toEqual({text: "It's light snow. The temperature is 8.37 degrees Farenhiet, but feels like -3.95. The humidity is 82 percent."})
 
     });
+
+    it('should understand "hello" and "hi"', async () => {
+        expect(await interpret('hello kingsley')).toEqual({text: 'Hello.'})
+        expect(await interpret('hi kingsley')).toEqual({text: 'Hello.'})
+    })
 
 })
