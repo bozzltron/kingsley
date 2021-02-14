@@ -65,6 +65,10 @@ export default function (statement :string) :Promise<Response> {
         return commands.rundown();
     }
 
+    else if (statement.includes("that's enough") || statement.includes("go to sleep") || statement.includes("go to sleep")) {
+        return commands.stop();
+    }
+
     else if(statement.includes("+") || statement.includes("-") || statement.includes("/") || 
         statement.includes("*") || statement.includes("%") || statement.includes("distance") || 
         statement.includes("how long")) {

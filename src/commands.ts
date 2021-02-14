@@ -218,6 +218,11 @@ const commands = {
         }
         console.log('sorted', sorted);
         return sorted.length > 0 ? sorted[0] : {text: ""}
+    },
+
+    stop: async() => {
+        session.set({active: false});
+        return {text: 'Ok'}
     }
 
 }
