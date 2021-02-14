@@ -29,7 +29,7 @@ export default function (statement :string) :Promise<Response> {
     //     return commands.hello();
     // }
 
-    else if (statement.includes("kingsley")) {
+    else if (statement.split(' ').includes("kingsley")) {
         return commands.acknowledge(statement);
     }
 
