@@ -77,7 +77,12 @@ el.onclick = async (e: Event) => {
         let confidence = result.confidence;
         clearMessages();
         createMessage({text: "I heard: " + statement});
-        let response = session.get().active || statement.split(' ').includes("kingsley") ? await interpret(statement) : await Promise.resolve({text: ''});
+        let response;
+        try {
+          response = session.get().active || statement.split(' ').includes("kingsley") ? await interpret(statement) : await Promise.resolve({text: ''});
+        } catch (e) {
+          console.error(e);
+        }
         await respond(response);
         if (confidence < 0.5 && session.get().active) {
           await respond({text:"Can you speak clearly?  I didn't hear you very well."})

@@ -9,6 +9,10 @@ function getRandomItemFrom(array :Array<string>) {
     return array[Math.floor(Math.random() * array.length)];
 }
 
+function removeFromCommaSeparatedString(string :string, key :string){
+    return string.split(',').filter((item)=>{ return item != key;}).join().trim()
+}
+
 const commands = {
 
     getTheTime: ()=>{
@@ -44,7 +48,7 @@ const commands = {
         try {
             summary = await API.get('wikipedia', '/wikipedia', {
                 queryStringParameters: { 
-                    query: keywords.text.replace('wikipedia', '')
+                    query: keywords.text.split(',')[0]
                 }
             })
         } catch (e) {
@@ -94,10 +98,10 @@ const commands = {
     },
 
     weather: async (statement :string)=> {
-        let city = await commands.keywords(statement);
+        let city = statement.split('in')[1] || session.get().city
         let result = await API.get('weather', '/weather', {
             queryStringParameters: { 
-                city: city.text
+                city: city
             }
         })
         let text = "";
@@ -158,7 +162,7 @@ const commands = {
         let url :string = "";
         let result = await API.get('news', '/news', {
             queryStringParameters: { 
-                query: query.text,
+                query: query.text.replace('news', ''),
                 //sources: session.get().newSources,
                 pageSize:10
             }
@@ -192,7 +196,7 @@ const commands = {
             }
         })
         console.log(result);
-        return { text: result.choices.length ? result.choices[0].text.split(",")[0] : ''};
+        return { text: result.choices.length ? result.choices[0].text : ''};
     },
 
     rundown: async() => {
