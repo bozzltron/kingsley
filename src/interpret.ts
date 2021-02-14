@@ -29,9 +29,9 @@ export default function (statement :string) :Promise<Response> {
     //     return commands.hello();
     // }
 
-    else if (statement.split(' ').includes("kingsley")) {
-        return commands.acknowledge(statement);
-    }
+    // else if (statement.split(' ').includes("kingsley")) {
+    //     return commands.acknowledge(statement);
+    // }
 
     // else if (statement.includes("good job") || statement.includes("nice work") || statement.includes("awesome") ) {
     //     return commands.thanks();
