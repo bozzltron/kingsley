@@ -79,7 +79,8 @@ el.onclick = async (e: Event) => {
         createMessage({text: "I heard: " + statement});
         let response;
         try {
-          response = session.get().active || statement.split(' ').includes("kingsley") ? await interpret(statement) : await Promise.resolve({text: ''});
+          if(statement.split(' ').includes(session.get().name)) session.set({active: true});
+          response = session.get().active ? await interpret(statement) : await Promise.resolve({text: ''});
         } catch (e) {
           console.error(e);
         }
