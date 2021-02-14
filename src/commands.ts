@@ -40,10 +40,11 @@ const commands = {
     wikipedia: async function(statement :string){
         let extract :string = "";
         let summary :any = {};
+        let keywords = await commands.keywords(statement);
         try {
             summary = await API.get('wikipedia', '/wikipedia', {
                 queryStringParameters: { 
-                    query: statement
+                    query: keywords.text.replace('wikipedia', '')
                 }
             })
         } catch (e) {
@@ -93,10 +94,10 @@ const commands = {
     },
 
     weather: async (statement :string)=> {
-        let city = statement.split('in').length > 1 ? statement.split('in')[1] : session.get().city;
+        let city = await commands.keywords(statement);
         let result = await API.get('weather', '/weather', {
             queryStringParameters: { 
-                city: city
+                city: city.text
             }
         })
         let text = "";
@@ -152,12 +153,12 @@ const commands = {
 
     news: async(statement :string) => {
         let response = "";
-        let query = statement.split('on')[1] || '';
+        let query = await commands.keywords(statement);
         let image :any = null;
         let url :string = "";
         let result = await API.get('news', '/news', {
             queryStringParameters: { 
-                query: query,
+                query: query.text,
                 //sources: session.get().newSources,
                 pageSize:10
             }
@@ -171,6 +172,27 @@ const commands = {
             response = `I found ${result.articles.length} articles: ` + result.articles.map((item :Article, index :number)=>`${index + 1}. ${item.title}`).join(" ");
         }
         return { text: response, image: image, url:url, meta: {articles: result.articles }};
+    },
+
+    openai: async(statement :string) => {
+        let result = await API.get('openai', '/openai', {
+            queryStringParameters: { 
+                prompt: statement
+            }
+        })
+        console.log(result);
+        return { text: result.choices.length ? result.choices[0].text : ''};
+    },
+
+    keywords: async(statement :string) => {
+        let result = await API.get('openai', '/openai', {
+            queryStringParameters: { 
+                prompt: statement,
+                type: 'keywords'
+            }
+        })
+        console.log(result);
+        return { text: result.choices.length ? result.choices[0].text.split(",")[0] : ''};
     },
 
     rundown: async() => {

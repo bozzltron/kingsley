@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/openai",
+            "lambdaFunction": "openai",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/openai"
+        }
+    ],
+    "resourceName": "openai",
+    "apiName": "openai",
+    "functionArns": [
+        {
+            "lambdaFunction": "openai"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-kingsley-prod-145313-authRole",
+        "unAuthRoleName": "amplify-kingsley-prod-145313-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "openai",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

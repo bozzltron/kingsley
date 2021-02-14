@@ -21,25 +21,25 @@ export default function (statement :string) :Promise<Response> {
         return commands.getName();
     }
 
-    else if(statement.includes("how are you")){
-        return commands.status();
-    }
+    // else if(statement.includes("how are you")){
+    //     return commands.status();
+    // }
 
-    else if (statement.split(' ').includes("hello") || statement.split(' ').includes("hi")) {
-        return commands.hello();
-    }
+    // else if (statement.split(' ').includes("hello") || statement.split(' ').includes("hi")) {
+    //     return commands.hello();
+    // }
 
     else if (statement.includes("kingsley")) {
         return commands.acknowledge(statement);
     }
 
-    else if (statement.includes("good job") || statement.includes("nice work") || statement.includes("awesome") ) {
-        return commands.thanks();
-    }
+    // else if (statement.includes("good job") || statement.includes("nice work") || statement.includes("awesome") ) {
+    //     return commands.thanks();
+    // }
 
-    else if (statement.includes("thanks") || statement.includes("thank you")) {
-        return commands.youAreWelcome();
-    }
+    // else if (statement.includes("thanks") || statement.includes("thank you")) {
+    //     return commands.youAreWelcome();
+    // }
 
     else if (statement.includes("voice options")) {
         return commands.voices();
@@ -57,7 +57,7 @@ export default function (statement :string) :Promise<Response> {
         return commands.read(statement);
     }
 
-    else if (statement.includes("whats the news on")) {
+    else if (statement.split(' ').includes("news")) {
         return commands.news(statement);
     }
 
@@ -71,8 +71,6 @@ export default function (statement :string) :Promise<Response> {
         return commands.wolfram(statement);
     }
 
-    else {
-        return commands.hypothesize(statement);
-    }
+    return commands.openai(statement);
 
 }
