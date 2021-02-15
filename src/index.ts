@@ -94,7 +94,6 @@ el.onclick = async (e: Event) => {
           await respond({text:"Can you speak clearly?  I didn't hear you very well."})
         }         
       }
-      await sleep(0.1);
     } catch (e) {
       if(e.error != 'no-speech') {
         console.error(e);
