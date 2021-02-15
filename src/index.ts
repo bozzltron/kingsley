@@ -45,7 +45,7 @@ function respond(response :Response) {
     createMessage(Object.assign({}, response, {text: "Response:" + response.text}));
     return response.speak ? speak(response.text) : Promise.resolve();
   } else {
-    createMessage({text:`Are you talking to me? "Say, hey ${session.get().name}".`});
+    createMessage({text:`Sleeping... 😴 💤 . Saying "${session.get().name}" will wake me up.`});
     return Promise.resolve();
   }
 }
