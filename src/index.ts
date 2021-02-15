@@ -72,6 +72,7 @@ el.onclick = async (e: Event) => {
       let results = await listen();
       console.log('handle results', results);
       for (let i = 0; i < results.length; i++) {
+        console.log("recognition", results);
         let result = results[i][0];
         var statement = result.transcript.toLowerCase();
         let confidence = result.confidence;
@@ -79,7 +80,11 @@ el.onclick = async (e: Event) => {
         createMessage({text: "I heard: " + statement});
         let response;
         try {
-          if(statement.split(' ').includes(session.get().name)) session.set({active: true});
+          console.log("statement", statement, "looking for", session.get().name, "in", statement.split(' '), "found?", statement.split(' ').includes(session.get().name.toLowerCase()));
+          if(statement.split(' ').includes(session.get().name.toLowerCase())){ 
+            session.set({active: true});
+            console.log("reactivated!", "session", session.get()); 
+          };
           response = session.get().active ? await interpret(statement) : await Promise.resolve({text: ''});
         } catch (e) {
           console.error(e);
