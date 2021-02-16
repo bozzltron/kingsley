@@ -13,22 +13,26 @@ body {
   overflow-y: auto;
 }
 
-.messages p:after {
+.message .wrap {
+  clear: both;
+}
+
+.message p:after {
   clear: both;
   display: block;
   content: "";
 }
 
-.messages img {
+.message img {
   float: left;
   margin-right: 1em;
   margin-bottom: 1em;
+  max-width:50%;
 }
 
-.messages p {
+.message p {
   padding: 0;
   margin: 0;
-  clear: both;
 }
 
 .message {

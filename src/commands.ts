@@ -232,18 +232,20 @@ const commands = {
         try {
             let records = await window.fetch('http://10.0.4.79/visitations.json', {mode: 'cors'}).then(res => res.json());
             text = `Leroy was visited ${records.length} ${records.length > 1 ? "times" : "time"} including `;
-            records.forEach((visit :any, index :number)=>{
-                if(index == records.length -1 && records.length > 1) {
+            let names = records.map((visit :any)=>{ return visit.species })
+            names = Array.from(new Set(names));
+            names.forEach((name :string, index :number)=>{
+                if(index == names.length -1 && names.length > 1) {
                     text += 'and ';
                 }
-                text += visit.species;
-                if(index == records.length -1) {
+                text += name;
+                if(index == names.length -1) {
                     text += '. ';
                 } else {
                     text += ', ';
                 }
             })
-            let image = records ? `http://10.0.4.79${records[0].records[0].filename}` : null;
+            image = records.length > 0 ? `http://10.0.4.79${records[records.length -1]['best_photo']}` : null;
         } catch (e) {
             console.error(e);
             text = getRandomItemFrom(["Leroy is not responding.", "I'm unable to reach Leroy.", "Leroy is ignoring me right now."])

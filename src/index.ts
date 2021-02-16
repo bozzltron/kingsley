@@ -20,18 +20,22 @@ function createMessage(response: Response) {
   let el = document.createElement('div');
   el.className = 'message';
 
+  let wrap = document.createElement('div');
+  wrap.className = 'wrap';
+
   if (response.image) {
     let img = document.createElement('img');
     img.src = response.image;
-    el.appendChild(img);
+    wrap.appendChild(img);
   }
 
   if (response.text) {
     let p = document.createElement('p');
     p.textContent = response.text;
-    el.appendChild(p);
+    wrap.appendChild(p);
   }
 
+  el.appendChild(wrap);
   document.querySelector('.messages').appendChild(el);
 }
 
@@ -58,7 +62,7 @@ function respond(response: Response) {
     if (response.meta) {
       session.set({ meta: response.meta });
     }
-    createMessage(Object.assign({}, response, { text: "Response:" + response.text }));
+    createMessage(Object.assign({}, response, { text: "Response: " + response.text }));
     return response.speak ? speak(response.text) : Promise.resolve();
   } else {
     createMessage({ text: `Saying "${session.get().name}" will wake me up.` });
@@ -99,14 +103,14 @@ el.onclick = async (e: Event) => {
         createMessage({ text: "I heard: " + statement });
         let response: Response;
         try {
-          console.log("statement", statement, "looking for", session.get().name, "in", statement.split(' '), "found?", statement.split(' ').includes(session.get().name.toLowerCase()));
           if (statement.split(' ').includes(session.get().name.toLowerCase())) {
             session.set({ active: true });
             console.log("reactivated!", "session", session.get());
           };
           if (session.get().active) {
             face.update('thinking_face');
-            response = await interpret(statement)
+            response = await interpret(statement);
+            console.log("response", response);
           } else {
             await Promise.resolve({ text: '' });
           }
