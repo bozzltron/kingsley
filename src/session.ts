@@ -6,17 +6,11 @@ let defaults = {
     name: 'Kingsley',
     voice: 51,
     city: 'Waukee,Iowa',
-    newsSources: 'axios,associated-press,npr,bbc-news,reuters'
+    newsSources: 'axios,associated-press,npr,bbc-news,reuters',
+    face: 'slightly_smiling_face'
 };
 
 let session = {
-
-    activate: ()=>{
-        session.set({active: true});
-        setTimeout(()=>{
-            session.set({active: false});
-        }, 300000)
-    },
 
     set: (changes :any) => {
         let data = session.get();

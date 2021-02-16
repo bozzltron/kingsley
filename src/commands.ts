@@ -59,7 +59,7 @@ const commands = {
     },
 
     acknowledge: function(statement :string) {
-        session.activate();
+        session.set({active: true});
         let acks = ["Yes?", "Sup.", "I hear you."]
         return Promise.resolve({text:getRandomItemFrom(acks)});
     },

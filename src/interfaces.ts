@@ -25,7 +25,8 @@ interface Session {
     voice :number,
     city :string,
     newSources :string,
-    meta ?:Meta
+    meta ?:Meta,
+    face :string
 }
 
 export { Response, Article, Meta, Session }
