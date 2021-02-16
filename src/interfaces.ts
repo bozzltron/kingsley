@@ -3,7 +3,8 @@ interface Response {
     image ?:string,
     speak ?:boolean,
     url ?:string,
-    meta ?:Meta
+    meta ?:Meta,
+    sleep ?:boolean
 }
 
 interface Article {

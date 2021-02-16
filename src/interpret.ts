@@ -45,14 +45,19 @@ export default function (statement :string) :Promise<Response> {
         return commands.rundown();
     }
 
-    else if (statement.includes("that's enough") || statement.includes("go to sleep") || statement.includes("go to sleep")) {
-        return commands.stop();
+    else if (statement.includes("that's enough") || statement.includes("go to sleep") || statement.includes("good night") || statement.includes("goodbye")) {
+        return commands.stop(statement);
     }
 
     else if(statement.includes("+") || statement.includes("-") || statement.includes("/") || 
         statement.includes("*") || statement.includes("%") || statement.includes("distance") || 
         statement.includes("how long")) {
         return commands.wolfram(statement);
+    }
+
+
+    else if (statement.split(' ').includes("leroy")) {
+        return commands.leroy();
     }
 
     return commands.openai(statement);

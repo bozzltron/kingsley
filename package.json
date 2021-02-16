@@ -40,7 +40,9 @@
     "@babel/polyfill": "^7.12.1",
     "aws-amplify": "^3.3.17",
     "node-emoji": "^1.10.0",
+    "node-fetch": "^2.6.1",
     "openai-api": "^1.0.15",
+    "unirest": "^0.6.0",
     "url-search-params-polyfill": "^8.1.0"
   }
 }

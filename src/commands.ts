@@ -220,10 +220,38 @@ const commands = {
         return sorted.length > 0 ? sorted[0] : {text: ""}
     },
 
-    stop: async() => {
-        session.set({active: false});
-        return {text: 'Ok'}
+    stop: async(statement :string) => {
+        let response :Response = await commands.openai(statement);
+        response.sleep = true;
+        return response;
+    },
+
+    leroy: async() => {
+        let text = ""
+        let image;
+        try {
+            let records = await window.fetch('http://10.0.4.79/visitations.json', {mode: 'cors'}).then(res => res.json());
+            text = `Leroy was visited ${records.length} ${records.length > 1 ? "times" : "time"} including `;
+            records.forEach((visit :any, index :number)=>{
+                if(index == records.length -1 && records.length > 1) {
+                    text += 'and ';
+                }
+                text += visit.species;
+                if(index == records.length -1) {
+                    text += '. ';
+                } else {
+                    text += ', ';
+                }
+            })
+            let image = records ? `http://10.0.4.79${records[0].records[0].filename}` : null;
+        } catch (e) {
+            console.error(e);
+            text = getRandomItemFrom(["Leroy is not responding.", "I'm unable to reach Leroy.", "Leroy is ignoring me right now."])
+        }
+    
+        return {text: text, image: image}
     }
+
 
 }
 
