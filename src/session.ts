@@ -7,7 +7,8 @@ let defaults = {
     voice: 51,
     city: 'Waukee,Iowa',
     newsSources: 'axios,associated-press,npr,bbc-news,reuters',
-    face: 'slightly_smiling_face'
+    face: 'slightly_smiling_face',
+    conversation: ''
 };
 
 let session = {

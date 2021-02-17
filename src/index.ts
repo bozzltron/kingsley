@@ -118,12 +118,13 @@ el.onclick = async (e: Event) => {
         } catch (e) {
           console.error(e);
         }
+        session.set({conversation: session.get().conversation + ` \n Human: ${statement} \n AI: ${response.text}`});
         await respond(response);
         if (confidence < 0.5 && session.get().active) {
           face.update('confused');
           await respond({ text: "Can you speak clearly?  I didn't hear you very well." })
         }
-        if(response.sleep === true) session.set({ active: false });
+        if(response.sleep === true) session.set({ active: false, conversation: "" });
       }
     } catch (e) {
       if (e.error != 'no-speech') {

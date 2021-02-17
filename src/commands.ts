@@ -181,7 +181,7 @@ const commands = {
     openai: async(statement :string) => {
         let result = await API.get('openai', '/openai', {
             queryStringParameters: { 
-                prompt: statement
+                prompt: session.get().conversation + `\n Human: ${statement} \n AI: `
             }
         })
         console.log(result);
