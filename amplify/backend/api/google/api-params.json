@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/google",
+            "lambdaFunction": "google",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/google"
+        }
+    ],
+    "resourceName": "google",
+    "apiName": "google",
+    "functionArns": [
+        {
+            "lambdaFunction": "google"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-kingsley-prod-145313-authRole",
+        "unAuthRoleName": "amplify-kingsley-prod-145313-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "google",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

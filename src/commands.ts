@@ -208,7 +208,7 @@ const commands = {
     hypothesize: async(statement :string) => {
         let sorted :Response [];
         try {
-            let results :Response[] = await Promise.all([commands.wolfram(statement), commands.wikipedia(statement)])
+            let results :Response[] = await Promise.all([commands.google(statement), commands.openai(statement)])
             sorted = results.sort((a, b) => {
                 if( a.text.length > b.text.length ) return -1;
                 if( a.text.length > b.text.length ) return 1;
@@ -252,6 +252,22 @@ const commands = {
         }
     
         return {text: text, image: image}
+    },
+
+    google: async(statement :string) => {
+        let text = "";
+        let link = "";
+        let result = await API.get('google', '/google', {
+            queryStringParameters: { 
+                query: statement
+            }
+        })
+        console.log(result);
+        if(result.results.length) {
+            text += result.results[0].description;
+            link = result.results[0].link;
+        }
+        return { text: text, meta: result.results, url: link};
     }
 
 

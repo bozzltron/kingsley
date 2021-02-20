@@ -4,6 +4,8 @@ import { Response } from './interfaces'
 
 export default function (statement :string) :Promise<Response> {
 
+    statement = statement.replace("kingsley", "");
+
     if (statement.includes("what time is it") || 
     statement.includes("what's the time") || 
         statement.includes("do you have the time") ||
@@ -55,11 +57,14 @@ export default function (statement :string) :Promise<Response> {
         return commands.wolfram(statement);
     }
 
-
     else if (statement.split(' ').includes("leroy")) {
         return commands.leroy();
     }
 
-    return commands.openai(statement);
+    else if (statement.split(' ').includes("google")) {
+        return commands.google(statement);
+    }
+
+    return commands.hypothesize(statement);
 
 }
