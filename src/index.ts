@@ -86,6 +86,7 @@ el.onclick = async (e: Event) => {
   let greeting = await commands.greeting();
   let mouth = await speak(greeting.text + ". I'm " + session.get().name);
   timeout = startTimeout();
+  session.set({conversation: ""});
   sleep(0.5);
 
   while (true) {
@@ -113,12 +114,14 @@ el.onclick = async (e: Event) => {
             console.log("response", response);
           } else {
             await Promise.resolve({ text: '' });
+            session.set({conversation: ""});
           }
 
         } catch (e) {
           console.error(e);
+          response = {text: ''}
         }
-        session.set({conversation: session.get().conversation + ` \n Human: ${statement} \n AI: ${response.text}`});
+        if(response && response.text) session.set({conversation: session.get().conversation + ` \n\n Human: ${statement} ? \n AI: ${response.text}`});
         await respond(response);
         if (confidence < 0.5 && session.get().active) {
           face.update('confused');

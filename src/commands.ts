@@ -105,7 +105,7 @@ const commands = {
             }
         })
         let text = "";
-        if(result.weather.length > 0) {
+        if(result.weather && result.weather.length > 0) {
             let description = `It's ${result.weather[0].description}. `;
             let tempature = `The temperature is ${result.main.temp} degrees Farenhiet, but feels like ${result.main.feels_like}. `;
             let humidity = `The humidity is ${result.main.humidity} percent.`
@@ -181,7 +181,7 @@ const commands = {
     openai: async(statement :string) => {
         let result = await API.get('openai', '/openai', {
             queryStringParameters: { 
-                prompt: session.get().conversation + `\n Human: ${statement} \n AI: `
+                prompt: `\nHuman:${statement} `
             }
         })
         console.log(result);
