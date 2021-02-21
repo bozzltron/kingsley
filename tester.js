@@ -2,7 +2,7 @@ const fetch = require("node-fetch")
 const cheerio = require("cheerio")
 
 async function go(){
-    const data = await fetch("https://apnews.com/article/us-news-shootings-new-orleans-metairie-louisiana-d2688cf8a0471ba3a035547b89e4645b").then(res=>res.text());
+    const data = await fetch("https://apnews.com").then(res=>res.text());
 
     const $ = cheerio.load(data)
     // Print the full HTML
@@ -12,16 +12,37 @@ async function go(){
     let title = $('h1').text()
     console.log(`First h1 tag: ${title}`);
 
-    let img = $('img').text()
-    console.log(`First img tag: ${img}`);
+    let img = "";
+    let text = "";
+    let article = $('article');
+    let main = $('main');
 
-    let article = $('article').text();
+    if(article) {
+        console.log("use article")
+        text = article.text();
+        img = $('article img').attr('src');
+    } 
+    
+    // if(main && !text) {
+    //     console.log("use main")
+    //     text = main.text();
+    // }
 
-    if(!article){
-        article = $('p').text();
+    if(main && !img){
+        img = $('main img').attr('src');
+    }
+    
+    if(!text){
+        console.log("fallback")
+        text = $('p').text();
     }
 
-    console.log('article', article);
+    if(!img) {
+        img = $('img').attr('src');
+    }
+
+    console.log(`First img tag: ${img}`);
+    console.log('text', text);
 
 }
 

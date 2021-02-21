@@ -32,21 +32,37 @@ exports.handler = async (event) => {
         let title = $('h1').text()
         console.log(`First h1 tag: ${title}`);
     
-        let img = $('img').text()
-        console.log(`First img tag: ${img}`);
+
+        let img = "";
+        let text = "";
+        let article = $('article');
+        let main = $('main');
     
-        let article = $('article').text();
+        if(article) {
+            console.log("use article")
+            text = article.text();
+            img = $('article img').attr('src');
+        }   
     
-        if(!article){
-            article = $('p').text();
+        if(main && !img){
+            img = $('main img').attr('src');
+        }
+        
+        if(!text){
+            console.log("fallback")
+            text = $('p').text();
         }
     
-        console.log('article', article);
+        if(!img) {
+            img = $('img').attr('src');
+        }
+    
+        console.log('text', text);
 
         response = makeResponse(200, JSON.stringify({
             title: title,
             image: img,
-            article: article
+            article: text
         }));
 
     } catch (error) {
