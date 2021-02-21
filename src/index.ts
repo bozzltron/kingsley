@@ -24,7 +24,6 @@ messages.create({ text: "Tap me to get started." });
 el.onclick = async (e: Event) => {
 
   messages.clear();
-  session.set({active: true});
   face.update('open_mouth');
   let greeting = await commands.greeting();
   await speak(greeting.text + ". I'm " + session.get().name);
@@ -53,7 +52,9 @@ el.onclick = async (e: Event) => {
           };
           if (session.get().active) {
             face.update('thinking_face');
+            timer.stop();
             response = await interpret(statement);
+            timer.start();
             console.log("response", response);
           } else {
             await Promise.resolve({ text: '' });

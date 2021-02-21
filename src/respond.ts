@@ -1,18 +1,13 @@
 import session from './session'
 import { Response } from './interfaces'
 import face from './face'
-import timer from './timer'
-import mesages from './messages'
 import speak from './speak'
 import messages from './messages'
 
 export default function respond(response: Response) {
     if (!response) return Promise.resolve();
     response.speak = response.speak !== false;
-  
-    timer.stop()
-    timer.start();
-  
+    
     if (session.get().active) {
       
         if (response.text === "") {
