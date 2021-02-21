@@ -46,7 +46,7 @@ exports.handler = async (event) => {
         response = makeResponse(500, error);
     }
 
-    console.log('response', response);y
+    console.log('response', response);
     
     return response;
 };
