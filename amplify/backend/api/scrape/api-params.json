@@ -1,0 +1,35 @@
+{
+    "paths": [
+        {
+            "name": "/scrape",
+            "lambdaFunction": "scrape",
+            "privacy": {
+                "open": true
+            },
+            "policyResourceName": "/scrape"
+        }
+    ],
+    "resourceName": "scrape",
+    "apiName": "scrape",
+    "functionArns": [
+        {
+            "lambdaFunction": "scrape"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-kingsley-prod-145313-authRole",
+        "unAuthRoleName": "amplify-kingsley-prod-145313-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "scrape",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

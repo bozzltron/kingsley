@@ -7,17 +7,19 @@ interface Response {
     sleep ?:boolean
 }
 
+interface Link {
+    url :string
+}
+
 interface Article {
     title :string,
-    source: {
-        name :string
-    },
-    urlToImage :string,
-    content :string
+    image :string,
+    content :string,
+    url :string
 }
 
 interface Meta {
-    articles ?:Array<Article>
+    articles ?:Array<Link>
 }
 
 interface Session {
@@ -31,4 +33,4 @@ interface Session {
     conversation :string
 }
 
-export { Response, Article, Meta, Session }
+export { Response, Article, Meta, Session, Link }

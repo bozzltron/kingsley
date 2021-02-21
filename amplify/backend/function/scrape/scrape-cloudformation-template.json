@@ -33,12 +33,12 @@
         "FunctionName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "google",
+            "scrape",
             {
               "Fn::Join": [
                 "",
                 [
-                  "google",
+                  "scrape",
                   "-",
                   {
                     "Ref": "env"
@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/google-3478476f76794d2b4d51-build.zip"
+          "S3Key": "amplify-builds/scrape-384a48764c7530525555-build.zip"
         }
       }
     },
@@ -79,12 +79,12 @@
         "RoleName": {
           "Fn::If": [
             "ShouldNotCreateEnvResources",
-            "kingsleyLambdaRole62b5c888",
+            "kingsleyLambdaRole24a5bb2f",
             {
               "Fn::Join": [
                 "",
                 [
-                  "kingsleyLambdaRole62b5c888",
+                  "kingsleyLambdaRole24a5bb2f",
                   "-",
                   {
                     "Ref": "env"

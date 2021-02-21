@@ -70,7 +70,7 @@ el.onclick = async (e: Event) => {
           face.update('confused');
           await respond({ text: "Can you speak clearly?  I didn't hear you very well." })
         }
-        if(response.sleep === true) session.set({ active: false, conversation: "" });
+        if(response && response.sleep === true) session.set({ active: false, conversation: "" });
       }
     } catch (e) {
       if (e.error != 'no-speech') {

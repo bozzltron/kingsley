@@ -1,17 +1,13 @@
 import Amplify, { API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import session from './session';
-import { Response, Article } from './interfaces'
+import { Response, Article, Link } from './interfaces'
 import face from './face'
 
 Amplify.configure(awsconfig);
 
 function getRandomItemFrom(array :Array<string>) {
     return array[Math.floor(Math.random() * array.length)];
-}
-
-function removeFromCommaSeparatedString(string :string, key :string){
-    return string.split(',').filter((item)=>{ return item != key;}).join().trim()
 }
 
 const commands = {
@@ -144,14 +140,15 @@ const commands = {
 
     read: async(statement :string) => {
         let meta = session.get().meta;
-        let text;
-        let image;
+        let text = "";
+        let image = "";
         if(!meta || meta.articles.length == 0){
             text = "I'm not sure what you're talking about."
         } else {
-            let article :Article = meta.articles[0];
-            text = article.content;
-            image = article.urlToImage;
+            let article :Link = meta.articles[0];
+            let response = await commands.scrape(article.url);
+            text = response.text;
+            image = response.image;
         }
         return {text: text, image: image}
     },
@@ -161,9 +158,10 @@ const commands = {
         let query = await commands.keywords(statement);
         let image :any = null;
         let url :string = "";
+        let meta = [];
         let result = await API.get('news', '/news', {
             queryStringParameters: { 
-                query: query.text.replace('news', ''),
+                query: query.text.replace('news', '').split(',')[0],
                 //sources: session.get().newSources,
                 pageSize:10
             }
@@ -174,9 +172,10 @@ const commands = {
             let first = result.articles[0];
             let image = first.urlToImage;
             let url = first.url;
-            response = `I found ${result.articles.length} articles: ` + result.articles.map((item :Article, index :number)=>`${index + 1}. ${item.title}`).join(" ");
+            response = `I found ${result.articles.length} articles: ` + result.articles.map((item :any, index :number)=>`${index + 1}. ${item.title}`).join(" ");
+            meta = result.articles.map((item :any)=>{return {url: item.url}})
         }
-        return { text: response, image: image, url:url, meta: {articles: result.articles }};
+        return { text: response, image: image, url:url, meta: {articles: meta }};
     },
 
     openai: async(statement :string) => {
@@ -258,6 +257,7 @@ const commands = {
     google: async(statement :string) => {
         let text = "";
         let link = "";
+        let meta = [];
         let result = await API.get('google', '/google', {
             queryStringParameters: { 
                 query: statement
@@ -268,8 +268,9 @@ const commands = {
             text += result.results[0].title;
             text += result.results[0].description;
             link = result.results[0].link;
+            meta = result.results.map((item :any)=>{return {url: item.link}});
         }
-        return { text: text, meta: result.results, url: link};
+        return { text: text, meta: {articles: meta}, url: link};
     },
 
     face: async(statement :string) => {
@@ -287,7 +288,17 @@ const commands = {
         }
         console.log('emojis', results);
         return { text: text };
-    }
+    },
+
+    scrape: async(url :string) => {
+        let result = await API.get('scrape', '/scrape', {
+            queryStringParameters: { 
+                url: url
+            }
+        })
+        console.log(result);
+        return { text: `${result.title} ${result.article}`, image: result.image };
+    },
 
 
 

@@ -4,7 +4,7 @@ import { Response } from './interfaces'
 
 export default function (statement :string) :Promise<Response> {
 
-    statement = statement.replace("kingsley", "");
+    statement = statement.replace("kingsley", "").trim();
 
     if (statement.includes("what time is it") || 
     statement.includes("what's the time") || 
@@ -67,6 +67,10 @@ export default function (statement :string) :Promise<Response> {
 
     else if (statement.includes("change your face")) {
         return commands.face(statement);
+    }
+
+    else if (statement.split(' ').includes("you")) {
+        return commands.openai(statement);
     }
 
     return commands.hypothesize(statement);

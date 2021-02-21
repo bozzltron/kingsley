@@ -1,16 +1,28 @@
-var unirest = require("unirest");
+const fetch = require("node-fetch")
+const cheerio = require("cheerio")
 
-var req = unirest("GET", "https://google-search3.p.rapidapi.com/api/v1/search/q=I'mcapital+police+vote+of+no+confidence&num=5");
+async function go(){
+    const data = await fetch("https://apnews.com/article/us-news-shootings-new-orleans-metairie-louisiana-d2688cf8a0471ba3a035547b89e4645b").then(res=>res.text());
 
-req.headers({
-	"x-rapidapi-key": process.env.API_KEY,
-	"x-rapidapi-host": "google-search3.p.rapidapi.com",
-	"useQueryString": true
-});
+    const $ = cheerio.load(data)
+    // Print the full HTML
+    //console.log(`Site HTML: ${$.html()}\n\n`)
 
+    // Print some specific page content
+    let title = $('h1').text()
+    console.log(`First h1 tag: ${title}`);
 
-req.end(function (res) {
-	if (res.error) throw new Error(res.error);
+    let img = $('img').text()
+    console.log(`First img tag: ${img}`);
 
-	console.log(res.body);
-});
+    let article = $('article').text();
+
+    if(!article){
+        article = $('p').text();
+    }
+
+    console.log('article', article);
+
+}
+
+go();

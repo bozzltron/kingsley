@@ -39,6 +39,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.12.1",
     "aws-amplify": "^3.3.17",
+    "cheerio": "^1.0.0-rc.5",
     "node-emoji": "^1.10.0",
     "node-fetch": "^2.6.1",
     "openai-api": "^1.0.15",
