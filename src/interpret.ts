@@ -65,6 +65,10 @@ export default function (statement :string) :Promise<Response> {
         return commands.google(statement);
     }
 
+    else if (statement.includes("change your face")) {
+        return commands.face(statement);
+    }
+
     return commands.hypothesize(statement);
 
 }

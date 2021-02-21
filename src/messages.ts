@@ -29,6 +29,11 @@ export default {
         if(response.url) {
           let iframe = document.createElement('iframe');
           iframe.src = response.url;
+          let link = document.createElement('a');
+          link.href = response.url;
+          link.target = "_blank";
+          link.textContent = response.url;
+          wrap.appendChild(link);
           wrap.appendChild(iframe);
         }
       

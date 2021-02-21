@@ -2,6 +2,7 @@ import Amplify, { API } from 'aws-amplify';
 import awsconfig from './aws-exports';
 import session from './session';
 import { Response, Article } from './interfaces'
+import face from './face'
 
 Amplify.configure(awsconfig);
 
@@ -264,11 +265,31 @@ const commands = {
         })
         console.log(result);
         if(result.results.length) {
+            text += result.results[0].title;
             text += result.results[0].description;
             link = result.results[0].link;
         }
         return { text: text, meta: result.results, url: link};
+    },
+
+    face: async(statement :string) => {
+        let a = statement.split('to a');
+        let an = statement.split('to an');
+        console.log('a', a, 'an', an);
+        if(a.length > 1) statement = a[1];
+        if(an.length > 1) statement = an[1];
+        console.log("query", statement);
+        let results = face.search(statement.trim());
+        let text = "I don't have a face like that.";
+        if(results.length > 0) {
+            session.set({face: results[0].emoji});
+            text = "how do I look now?";
+        }
+        console.log('emojis', results);
+        return { text: text };
     }
+
+
 
 
 }
