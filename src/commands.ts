@@ -181,7 +181,7 @@ const commands = {
     openai: async(statement :string) => {
         let result = await API.get('openai', '/openai', {
             queryStringParameters: { 
-                prompt: `\nHuman:${statement} `
+                prompt: `\nHuman:${statement} \n AI:`
             }
         })
         console.log(result);
@@ -218,7 +218,15 @@ const commands = {
 
     hypothesize: async(statement :string) => {
         let classify = await commands.classify(statement);
-        return classify.text.trim() == "Internal" ? commands.openai(statement) : commands.google(statement);
+        console.log("Classification", classify.text.trim());
+        switch(classify.text.trim()){
+            case "Internal":
+                return commands.openai(statement);
+            case "Computation":
+                return commands.wolfram(statement);
+            default:
+                return commands.google(statement);
+        }
     },
 
     stop: async(statement :string) => {

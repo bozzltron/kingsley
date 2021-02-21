@@ -31,7 +31,7 @@ export default function (statement :string) :Promise<Response> {
         return commands.setVoice(statement);
     }
 
-    else if (statement.includes("tell me about") || statement.includes("wikipedia")) {
+    else if (statement.includes("wikipedia")) {
         return commands.wikipedia(statement);
     }
 
@@ -39,8 +39,8 @@ export default function (statement :string) :Promise<Response> {
         return commands.read(statement);
     }
 
-    else if (statement.split(' ').includes("news")) {
-        return commands.news(statement);
+    else if (statement.split(' ').includes("news today")) {
+        return commands.news("");
     }
 
     else if (statement.includes("the rundown")) {
@@ -51,11 +51,11 @@ export default function (statement :string) :Promise<Response> {
         return commands.stop(statement);
     }
 
-    else if(statement.includes("+") || statement.includes("-") || statement.includes("/") || 
-        statement.includes("*") || statement.includes("%") || statement.includes("distance") || 
-        statement.includes("how long")) {
-        return commands.wolfram(statement);
-    }
+    // else if(statement.includes("+") || statement.includes("-") || statement.includes("/") || 
+    //     statement.includes("*") || statement.includes("%") || statement.includes("distance") || 
+    //     statement.includes("how long")) {
+    //     return commands.wolfram(statement);
+    // }
 
     else if (statement.split(' ').includes("leroy")) {
         return commands.leroy();
@@ -69,9 +69,9 @@ export default function (statement :string) :Promise<Response> {
         return commands.face(statement);
     }
 
-    else if (statement.split(' ').includes("you")) {
-        return commands.openai(statement);
-    }
+    // else if (statement.split(' ').includes("you")) {
+    //     return commands.openai(statement);
+    // }
 
     return commands.hypothesize(statement);
 
