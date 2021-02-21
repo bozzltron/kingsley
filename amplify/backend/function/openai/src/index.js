@@ -49,6 +49,17 @@ exports.handler = async (event) => {
                 frequencyPenalty: 0.8,
                 stop: ["\n"]
             });
+        } else if(type == 'classify') {
+            body = await openai.complete({
+                engine: 'davinci',
+                prompt: `Text: how are you\nCategory: Internal\n###\nText: what is your name\nCategory: Internal\n###\nText: how are you feeling\nCategory: Internal\n###\nText: what is the time\nCategory: External\n###\nText: when does season three come out\nCategory: External\n###\nText: what's 2 + 2\nCategory: External\n###\nText: are you human\nCategory: Internal\n###\nText: what is the forecast \nCategory:   External\n###\nText: do you have a name\nCategory: Internal\n###\nText: ${prompt} \nCategory:`,
+                maxTokens: 64,
+                temperature: 0,
+                topP: 1,
+                presencePenalty: 0,
+                frequencyPenalty: 0,
+                stop: ["\n"]
+            });
         }
 
         response = makeResponse(200, JSON.stringify(body.data));

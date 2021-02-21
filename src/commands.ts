@@ -199,6 +199,17 @@ const commands = {
         return { text: result.choices.length ? result.choices[0].text : ''};
     },
 
+    classify: async(statement :string) => {
+        let result = await API.get('openai', '/openai', {
+            queryStringParameters: { 
+                prompt: statement,
+                type: 'classify'
+            }
+        })
+        console.log(result);
+        return { text: result.choices.length ? result.choices[0].text : ''};
+    },
+
     rundown: async() => {
         let result =  await Promise.all([commands.getTheTime(), commands.weather(session.get().city), commands.news("")]);
         let text = result.map((response)=>{ return response.text}).join(' ');
@@ -206,18 +217,8 @@ const commands = {
     },
 
     hypothesize: async(statement :string) => {
-        let sorted :Response [];
-        try {
-            let results :Response[] = await Promise.all([commands.google(statement), commands.openai(statement)])
-            sorted = results.sort((a, b) => {
-                if( a.text.length > b.text.length ) return -1;
-                if( a.text.length > b.text.length ) return 1;
-            });
-        } catch (e){
-            console.log("error", e);
-        }
-        console.log('sorted', sorted);
-        return sorted.length > 0 ? sorted[0] : {text: ""}
+        let classify = await commands.classify(statement);
+        return classify.text.trim() == "Internal" ? commands.openai(statement) : commands.google(statement);
     },
 
     stop: async(statement :string) => {

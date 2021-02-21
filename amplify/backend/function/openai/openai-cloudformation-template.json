@@ -69,7 +69,7 @@
         "Timeout": "25",
         "Code": {
           "S3Bucket": "amplify-kingsley-prod-145313-deployment",
-          "S3Key": "amplify-builds/openai-6b5a4f517a76554e466c-build.zip"
+          "S3Key": "amplify-builds/openai-7679426544556f705639-build.zip"
         }
       }
     },
