@@ -2,7 +2,7 @@ const fetch = require("node-fetch")
 const cheerio = require("cheerio")
 
 async function go(){
-    const data = await fetch("https://apnews.com").then(res=>res.text());
+    const data = await fetch(process.env.URL).then(res=>res.text());
 
     const $ = cheerio.load(data)
     // Print the full HTML
@@ -19,7 +19,7 @@ async function go(){
 
     if(article) {
         console.log("use article")
-        text = article.text();
+        text = $('article p').text();
         img = $('article img').attr('src');
     } 
     
@@ -42,7 +42,7 @@ async function go(){
     }
 
     console.log(`First img tag: ${img}`);
-    console.log('text', text);
+    console.log('text', text. trim());
 
 }
 

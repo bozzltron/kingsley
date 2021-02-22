@@ -40,7 +40,7 @@ exports.handler = async (event) => {
     
         if(article) {
             console.log("use article")
-            text = article.text();
+            text = $('article p').text();
             img = $('article img').attr('src');
         }   
     
