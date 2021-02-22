@@ -69,6 +69,14 @@ export default function (statement :string) :Promise<Response> {
         return commands.face(statement);
     }
 
+    else if (statement.includes("read me")) {
+        return commands.findAndRead(statement);
+    }
+
+    else if (statement.includes("what can you do")) {
+        return commands.capabilities();
+    }
+
     // else if (statement.split(' ').includes("you")) {
     //     return commands.openai(statement);
     // }

@@ -309,7 +309,25 @@ const commands = {
         return { text: `${result.title} ${result.article}`, image: result.image };
     },
 
+    findAndRead: async (statement :string) => {
+        let query = statement.split('read me')[1].trim();
+        if (query === "") {
+            return {text: "What do you want me to read?"};
+        } else {
+            let results = await commands.google(query);
+            if(results.meta.articles.length == 0) {
+                return {text: "I couldn't find what you're looking for?"};
+            } else {
+                let url = results.meta.articles[0].url;
+                let scrape = await commands.scrape(url)
+                return { text: scrape.text, image: scrape.image, url: url }
+            }
+        }
+    },
 
+    capabilities: async() => {
+        return { text: "I am able to tell you the weather, the time, find and read information, and peform a range of calcuations.  You can can change my voice or my face to any emoji.  We can have a conversation." }
+    }
 
 
 }
