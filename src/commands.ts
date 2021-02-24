@@ -274,8 +274,8 @@ const commands = {
         })
         console.log(result);
         if(result.results.length) {
-            text += result.results[0].title;
             text += result.results[0].description;
+            text += " Source :" + result.results[0].title;
             link = result.results[0].link;
             meta = result.results.map((item :any)=>{return {url: item.link}});
         }
