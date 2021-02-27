@@ -51,12 +51,6 @@ export default function (statement :string) :Promise<Response> {
         return commands.stop(statement);
     }
 
-    // else if(statement.includes("+") || statement.includes("-") || statement.includes("/") || 
-    //     statement.includes("*") || statement.includes("%") || statement.includes("distance") || 
-    //     statement.includes("how long")) {
-    //     return commands.wolfram(statement);
-    // }
-
     else if (statement.split(' ').includes("leroy")) {
         return commands.leroy();
     }
@@ -76,10 +70,6 @@ export default function (statement :string) :Promise<Response> {
     else if (statement.includes("what can you do")) {
         return commands.capabilities();
     }
-
-    // else if (statement.split(' ').includes("you")) {
-    //     return commands.openai(statement);
-    // }
 
     return commands.hypothesize(statement);
 
