@@ -15,7 +15,10 @@ export default function speak(text) {
         mouth.voice = voices[voiceIndex];
         mouth.pitch = 1;
         mouth.rate = 1;
-        mouth.onerror = reject;
+        mouth.onerror = (e)=>{
+            console.error("Can't read string", text);
+            reject(e);
+        };
         mouth.onend = ()=>{
             clearInterval(interval);
             resolve();

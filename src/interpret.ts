@@ -1,17 +1,17 @@
 import commands from './commands'
 import session from './session'
 import { Response } from './interfaces'
+import { includesAny } from './string';
 
 export default function (statement :string) :Promise<Response> {
 
     statement = statement.replace("kingsley", "").trim();
 
-    if (statement.includes("what time is it") || 
-    statement.includes("what's the time") || 
-        statement.includes("do you have the time") ||
-        statement.includes("what is the date") ||
-        statement.includes("what's is the date") ||
-        statement.includes("todays date")) {
+    if(statement.split(' ').length <= 2 && !includesAny(statement, ['goodbye', 'good morning', 'hello', 'hi', 'thank you'])){
+        return commands.tryAgain();
+    }
+
+    else if (includesAny( statement, ["what time is it", "what's the time", "do you have the time", "what is the date", "what's is the date", "todays date"])) {
         return commands.getTheTime();
     }
 
@@ -71,6 +71,8 @@ export default function (statement :string) :Promise<Response> {
         return commands.capabilities();
     }
 
-    return commands.hypothesize(statement);
+    else {
+        return commands.hypothesize(statement);
+    }
 
 }

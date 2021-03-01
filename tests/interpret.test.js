@@ -1,4 +1,3 @@
-import '../src/interpret'
 import interpret from '../src/interpret'
 import commands from '../src/commands'
 import {

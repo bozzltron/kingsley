@@ -1,13 +1,15 @@
-export default {
-    isQuestion: (str :string)=>{
-        return str.includes('who') || 
-            str.includes('what') ||
-            str.includes('why') ||
-            str.includes('where') ||
-            str.includes('when') ||
-            str.includes('is it') ||
-            str.includes('are you') ||
-            str.includes('am i') ||
-            str.includes('am i') 
-    }
+function includesAny (str :string, ary :Array<string>) {
+    let includes = false;
+    ary.forEach((item)=>{
+        if(str.includes(item)) {
+            includes = true;
+        }
+    })
+    return includes;
 }
+
+function speechReady (str :string) {
+    return str.replace(/[&\/\\#()~'"<>{}]/g,'');
+}
+
+export { includesAny, speechReady }
