@@ -51,7 +51,7 @@ export default function (statement :string) :Promise<Response> {
         return commands.stop(statement);
     }
 
-    else if (statement.split(' ').includes("leroy")) {
+    else if (statement.split(' ').includes("leroy") || statement.split(' ').includes("leroy's")) {
         return commands.leroy();
     }
 
