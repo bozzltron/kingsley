@@ -259,7 +259,12 @@ const commands = {
             image = records.length > 0 ? `http://10.0.4.79${records[records.length -1]['best_photo']}` : null;
         } catch (e) {
             console.error(e);
-            window.open('http://10.0.4.79/', 'leroy');
+            let leroy = window.open('http://10.0.4.79/', 'leroy');
+            leroy.focus();
+            leroy.location.reload();
+            setTimeout(()=>{
+                window.focus();
+            }, 6000);
             text = "Here are the birds Leroy has spotted today."
         }
     
