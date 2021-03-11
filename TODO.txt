@@ -1,0 +1,5 @@
+New Task ideas:
+1. Message sending / reading capabilites.
+2. Timer
+3. Play media
+4. Image search

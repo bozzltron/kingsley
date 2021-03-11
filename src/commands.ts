@@ -259,7 +259,8 @@ const commands = {
             image = records.length > 0 ? `http://10.0.4.79${records[records.length -1]['best_photo']}` : null;
         } catch (e) {
             console.error(e);
-            text = getRandomItemFrom(["Leroy is not responding.", "I'm unable to reach Leroy.", "Leroy is ignoring me right now."])
+            window.open('http://10.0.4.79/', 'leroy');
+            text = "Here are the birds Leroy has spotted today."
         }
     
         return {text: text, image: image}
