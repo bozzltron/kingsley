@@ -22,7 +22,7 @@ export default {
       
         if (response.text) {
           let p = document.createElement('p');
-          p.textContent = response.text;
+          p.innerHTML = response.text;
           wrap.appendChild(p);
         }
 

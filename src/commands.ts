@@ -260,7 +260,7 @@ const commands = {
         } catch (e) {
             console.error(e);
             let leroy = window.open('http://10.0.4.79/');
-            leroy.focus();
+            leroy.focus();  
             setTimeout(()=>{
                 window.focus();
             }, 6000);

@@ -43,7 +43,7 @@ body {
   margin: 0;
 }
 
-.message {
+.message, .debug {
   animation-duration: 1s;
   animation-name: slidein;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
@@ -57,8 +57,9 @@ body {
   top:0px;
   width:96%;
   box-sizing: border-box;
-
 }
+
+
 
 @keyframes slidein {
   from {

@@ -1,16 +1,21 @@
 var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition || window.mozSpeechRecognition || window.msSpeechRecognition;
-var SpeechGrammarList = SpeechGrammarList || webkitSpeechGrammarList;
-var SpeechRecognitionEvent = SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+var SpeechGrammarList = window.SpeechGrammarList || window.webkitSpeechGrammarList || null;
+var SpeechRecognitionEvent = window.SpeechRecognitionEvent || window.webkitSpeechRecognitionEvent || null;
 
 function listen() {
     return new Promise((resolve, reject) => {
 
-        let grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ;';
+        
         let recognition = new SpeechRecognition();
-        let speechRecognitionList = new SpeechGrammarList();
+        let speechRecognitionList;
 
-        speechRecognitionList.addFromString(grammar, 1);
-        recognition.grammars = speechRecognitionList;
+        if(SpeechGrammarList) {
+            let grammar = '#JSGF V1.0; grammar phrase; public <phrase> = ;';
+            speechRecognitionList = new SpeechGrammarList();
+            speechRecognitionList.addFromString(grammar, 1);
+            recognition.grammars = speechRecognitionList;
+        }
+        
         recognition.lang = 'en-US';
         recognition.interimResults = false;
         recognition.maxAlternatives = 1;

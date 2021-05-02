@@ -1,4 +1,5 @@
 import 'url-search-params-polyfill'
+import debug from './debug';
 import listen from './listen'
 import speak from './speak'
 import interpret from './interpret'
@@ -19,7 +20,7 @@ function sleep(seconds: number) {
   })
 }
 
-messages.create({ text: "Tap me to get started." });
+debug() || messages.create({ text: "Tap me to get started." });
 
 el.onclick = async (e: Event) => {
 
@@ -81,4 +82,3 @@ el.onclick = async (e: Event) => {
   }
 
 }
-
