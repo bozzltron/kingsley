@@ -42,6 +42,7 @@ export default () => {
 
         if(!supportsEmoji()){
             text += "Emoji not supported </br/>";
+            document.querySelector('.face').textContent = "Kingsley";
         } else {
             text += "Emoji is supported </br/>";
         }
