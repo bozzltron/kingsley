@@ -23,6 +23,7 @@ function sleep(seconds: number) {
 debug() || messages.create({ text: "Tap me to get started." });
 
 el.onclick = async (e: Event) => {
+  session.set({active: true});
   console.log('start listening')
   let results = await listen();
   console.log('handle results', results);
