@@ -23,6 +23,34 @@ function sleep(seconds: number) {
 debug() || messages.create({ text: "Tap me to get started." });
 
 el.onclick = async (e: Event) => {
+  console.log('start listening')
+  let results = await listen();
+  console.log('handle results', results);
+  for (let i = 0; i < results.length; i++) {
+    console.log("recognition", results);
+    let result = results[i][0];
+    var statement = result.transcript.toLowerCase();
+    let confidence = result.confidence;
+    messages.clear();
+    messages.create({ text: "I heard: " + statement });
+    let response: Response;
+    try {
+
+      face.update('thinking_face');
+      response = await interpret(statement);
+      console.log("response", response);
+
+    } catch (e) {
+      console.error(e);
+      response = {text: ''}
+    }
+    if(response && response.text) session.set({conversation: session.get().conversation + ` \n\n Human: ${statement} ? \n AI: ${response.text}`});
+    await respond(response);
+    face.update('slightly_smiling_face');
+    }
+}
+
+let conversationMode = async (e: Event) => {
 
   messages.clear();
   face.update('open_mouth');
@@ -68,7 +96,7 @@ el.onclick = async (e: Event) => {
         }
         if(response && response.text) session.set({conversation: session.get().conversation + ` \n\n Human: ${statement} ? \n AI: ${response.text}`});
         await respond(response);
-        if (confidence < 0.5 && session.get().active) {
+        if (confidence < 0.2 && session.get().active) {
           face.update('confused');
           await respond({ text: "Can you speak clearly?  I didn't hear you very well." })
         }
@@ -81,4 +109,4 @@ el.onclick = async (e: Event) => {
     }
   }
 
-}
+};
