@@ -11,6 +11,7 @@ import face from './face'
 import respond from './respond'
 import messages from './messages' 
 import timer from './timer';
+import isMobile  from './mobile';
 
 var el: HTMLElement = document.querySelector('.activate');
 
@@ -22,7 +23,7 @@ function sleep(seconds: number) {
 
 debug() || messages.create({ text: "Tap me to get started." });
 
-el.onclick = async (e: Event) => {
+let clickMode = async (e: Event) => {
   session.set({active: true});
   console.log('start listening')
   let results = await listen();
@@ -111,3 +112,5 @@ let conversationMode = async (e: Event) => {
   }
 
 };
+
+el.onclick = isMobile ? clickMode : conversationMode;

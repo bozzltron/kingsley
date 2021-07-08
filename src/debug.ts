@@ -1,4 +1,5 @@
 import messages from './messages';
+import isMobile from './mobile';
 
 var SpeechRecognition = (<any>window).SpeechRecognition || (<any>window).webkitSpeechRecognition || (<any>window).mozSpeechRecognition || (<any>window).msSpeechRecognition || null;
 var SpeechGrammarList = (<any>window).SpeechGrammarList || (<any>window).webkitSpeechGrammarList || null;
@@ -15,6 +16,8 @@ export default () => {
     
     if(params.has('debug')){
         let text = "";
+
+        text += `Device classification: ${isMobile ? "Mobile": "Not Mobile"} </br/>`;
 
         if(!SpeechRecognition) {
             text += "SpeechRecognition not supported </br/>";
