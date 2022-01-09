@@ -113,4 +113,4 @@ let conversationMode = async (e: Event) => {
 
 };
 
-el.onclick = isMobile ? clickMode : conversationMode;
+el.onclick = isMobile.any() ? clickMode : conversationMode;

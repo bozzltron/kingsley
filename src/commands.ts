@@ -227,7 +227,7 @@ const commands = {
             case "Incomplete":
                 return statement.split(' ').includes("hello") || statement.split(' ').includes("hi") ? commands.openai(statement) : commands.tryAgain();
                 default:
-                return commands.google(statement);
+                return commands.openai(statement);
         }
     },
 

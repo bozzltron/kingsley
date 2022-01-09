@@ -17,7 +17,7 @@ export default () => {
     if(params.has('debug')){
         let text = "";
 
-        text += `Device classification: ${isMobile ? "Mobile": "Not Mobile"} </br/>`;
+        text += `Device classification: ${isMobile.any() ? "Mobile": "Not Mobile"} </br/>`;
 
         if(!SpeechRecognition) {
             text += "SpeechRecognition not supported </br/>";
