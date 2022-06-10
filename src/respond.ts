@@ -5,6 +5,7 @@ import speak from './speak'
 import messages from './messages'
 
 export default function respond(response: Response) {
+    console.log("response", response);
     if (!response) return Promise.resolve();
     response.speak = response.speak !== false;
     
@@ -12,7 +13,7 @@ export default function respond(response: Response) {
       
         if (response.text === "") {
         face.update('disappointed');
-        response.text = "I didn't find anything"
+        response.text = "Try again."
       } else {
         face.update('open_mouth');
       }

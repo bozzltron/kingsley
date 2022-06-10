@@ -17,6 +17,12 @@
           "appId": "d2jtvj1lsi3noz",
           "type": "cicd"
         }
+      },
+      "function": {
+        "kingsley": {
+          "deploymentBucketName": "amplify-kingsley-prod-145313-deployment",
+          "s3Key": "amplify-builds/kingsley-456932507974596d636f-build.zip"
+        }
       }
     }
   }

@@ -5,7 +5,7 @@
   "main": "script.js",
   "scripts": {
     "test": "jest",
-    "start": "webpack serve --hot --inline --env NODE_ENV=development",
+    "start": "webpack serve --hot --inline --env NODE_ENV=development --env SERVICE_KINGSLEY=http://localhost:3011",
     "build": "webpack --config webpack.config.js"
   },
   "repository": {
@@ -44,6 +44,7 @@
     "node-fetch": "^2.6.1",
     "openai-api": "^1.0.15",
     "unirest": "^0.6.0",
-    "url-search-params-polyfill": "^8.1.0"
+    "url-search-params-polyfill": "^8.1.0",
+    "uuid": "^3.4.0"
   }
 }

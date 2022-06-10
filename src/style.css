@@ -9,7 +9,25 @@ body {
   margin-top: 200px;
   overflow-x: hidden;
   overflow-y: auto;
+  display:flex;
 }
+
+.message, .debug {
+  animation-duration: 1s;
+  animation-name: slidein;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
+  border: 4.5px solid #555;
+  padding: 1em;
+  margin: 1em;
+  font-size: 1.5em;
+  position:absolute;
+  background-color:#1e1e1e;
+  color:#e3e3e3;
+  top:0px;
+  box-sizing: border-box;
+  flex-grow: 2;
+}
+
 
 .message .wrap {
   clear: both;
@@ -44,23 +62,6 @@ body {
   padding: 0;
   margin: 0;
 }
-
-.message, .debug {
-  animation-duration: 1s;
-  animation-name: slidein;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.4);
-  border: 4.5px solid #555;
-  padding: 1em;
-  margin: 1em;
-  font-size: 1.5em;
-  position:absolute;
-  background-color:#1e1e1e;
-  color:#e3e3e3;
-  top:0px;
-  box-sizing: border-box;
-}
-
-
 
 @keyframes slidein {
   from {

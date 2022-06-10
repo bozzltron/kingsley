@@ -1,10 +1,4 @@
-FROM python:3
+FROM node:16
+RUN apt-get update && apt-get install chromium -y
 WORKDIR /usr/src/app
-
-COPY requirements.txt /usr/src/app/
-RUN sudo apt-get update && sudo apt-get install -y alsa-base alsa-utils
-RUN pip install virtualenv && virtualenv /usr/src/.venv && \
-   /usr/src/.venv/bin/pip install -Ur requirements.txt
-
-COPY . /usr/src/app/
-ENTRYPOINT /usr/src/app/run.sh
+CMD ["npm", "start"]

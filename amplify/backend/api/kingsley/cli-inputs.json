@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/inquire": {
+      "name": "/inquire",
+      "lambdaFunction": "kingsley",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
