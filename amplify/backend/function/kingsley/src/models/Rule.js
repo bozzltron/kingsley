@@ -1,6 +1,6 @@
 const Memory = require("../modules/Memory");
 const search = require("../modules/Google");
-const news = require("../modules/news");
+const news = require("../modules/News");
 const Util = require("../modules/Util");
 class Rule {
   constructor(data) {

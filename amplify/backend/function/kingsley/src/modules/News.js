@@ -4,7 +4,9 @@ async function news(query) {
   query = query.replace("kingsley", "");
   try {
     const URL = "https://apnews.com/";
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({
+      headless: process.env.NODE == "production",
+    });
     const page = await browser.newPage();
 
     await page.goto(URL);
@@ -18,7 +20,7 @@ async function news(query) {
       return results;
     });
     console.log("data", data);
-    //await browser.close();
+    await browser.close();
     if (data.length == 0) {
       return { text: "I didn't find anything" };
     } else {
