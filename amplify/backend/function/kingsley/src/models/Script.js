@@ -2,7 +2,7 @@ const Memory = require("../modules/Memory");
 const Rules = require("../modules/Rules");
 const Rule = require("./Rule");
 const Actions = require("../modules/Actions");
-
+const logger = require("../modules/Logger");
 class Script {
   constructor(data) {
     Object.assign(
@@ -36,7 +36,7 @@ class Script {
     if (!step) {
       step = this.steps[this.current_step];
     } else {
-      console.log("step!", step);
+      logger.info("step!", step);
     }
 
     switch (step.action) {
@@ -59,7 +59,7 @@ class Script {
             metadata,
             step.options.yes
           );
-          console.log("confirm yes response", response);
+          logger.info("confirm yes response", response);
         } else {
           step.selection = "no";
           response = await this.perform_step(
@@ -67,7 +67,7 @@ class Script {
             metadata,
             step.options.no
           );
-          console.log("confirm no response", response);
+          logger.info("confirm no response", response);
           if (step.session == "end") {
             await this.delete();
           }
@@ -78,14 +78,14 @@ class Script {
           response = { text: "I don't understand. Try again" };
         }
         let verb = metadata.pos.verbs[0];
-        console.log("verb", verb);
+        logger.info("verb", verb);
         let rules = await Rules.find(verb);
-        console.log("existing rules", rules);
+        logger.info("existing rules", rules);
         if (rules.length > 0) {
           await new Rule(rules[0]).perform(statement, metadata);
         } else {
           let actions = await Actions.find({ verbs: verb });
-          console.log("actions", actions);
+          logger.info("actions", actions);
           if (actions.length > 0) {
             let action = actions[0];
             let rule = await new Rule({

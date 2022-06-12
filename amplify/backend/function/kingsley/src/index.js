@@ -1,6 +1,6 @@
 const lb = require("@google-cloud/logging-bunyan");
 const app = require("./app");
-
+const logger = require("./modules/Logger");
 async function startServer() {
   if (process.env.NODE_ENV == "production") {
     const { logger, mw } = await lb.express.middleware({
@@ -13,7 +13,7 @@ async function startServer() {
   }
 
   app.listen(process.env.PORT, () => {
-    console.log(`Kingsley listening on port ${process.env.PORT}`);
+    logger.info(`Kingsley listening on port ${process.env.PORT}`);
   });
 }
 

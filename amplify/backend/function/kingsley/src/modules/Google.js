@@ -1,5 +1,5 @@
 const puppeteer = require("puppeteer");
-
+const logger = require("./Logger");
 async function search(query) {
   query = query.replace("kingsley", "");
   try {
@@ -32,7 +32,7 @@ async function search(query) {
       });
       return results;
     });
-    console.log("data", data);
+    logger.info("data", data);
     await browser.close();
     if (data.length == 0) {
       return { text: "I didn't find anything" };

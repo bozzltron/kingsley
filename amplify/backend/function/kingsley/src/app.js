@@ -18,6 +18,7 @@ const Rules = require("./modules/Rules");
 const Scripts = require("./modules/Scripts");
 const Script = require("./models/Script");
 const Rule = require("./models/Rule");
+const logger = require("./modules/Logger");
 
 // declare a new express app
 const app = express();
@@ -40,14 +41,14 @@ async function respond(res, statement, metadata, conversation, response) {
     metadata,
     response,
   });
-  console.log("response", response);
+  logger.info("response", response);
   res.json(response);
 }
 
 app.post("/inquire", async function (req, res) {
   try {
     let response;
-    console.log("body", req.body);
+    logger.info("body", req.body);
 
     if (!req.body.statement || !req.body.confidence) {
       return res.set({ status: 400 }).json({
@@ -63,17 +64,17 @@ app.post("/inquire", async function (req, res) {
       sentiment: await Sentiment.analyze(statement),
       pos: await POS.getPOS(statement),
     };
-    console.log("metadata", metadata);
+    logger.info("metadata", metadata);
 
     const conversation = await Conversations.findOrCreate(
       metadata.conversation_id
     );
-    console.log("conversation", conversation);
+    logger.info("conversation", conversation);
 
     const active_scripts = await Scripts.find({ active: true });
     if (active_scripts.length > 0) {
       const active_script = active_scripts[0];
-      console.log("active script", active_script);
+      logger.info("active script", active_script);
       response = await new Script(active_script).perform_step(
         statement,
         metadata
@@ -83,18 +84,18 @@ app.post("/inquire", async function (req, res) {
 
     // Reaction
     const rules = await Rules.search(statement);
-    console.log("rules", rules);
+    logger.info("rules", rules);
 
     // Reason
     if (rules.length > 0) {
-      console.log("rule", rules[0]);
+      logger.info("rule", rules[0]);
       let response = await new Rule(rules[0]).perform(statement, metadata);
       return respond(res, statement, metadata, conversation, response);
     } else {
-      console.log("activate the no rule script");
+      logger.info("activate the no rule script");
       let script = await Scripts.find({ scenario: "no rules" })[0];
       delete script._id;
-      console.log("no rules script", script);
+      logger.info("no rules script", script);
       let step = await new Script({
         ...script[0],
         original_statement: statement,
@@ -113,7 +114,7 @@ app.post("/inquire", async function (req, res) {
 });
 
 app.listen(3000, function () {
-  console.log("Kingsley started");
+  logger.info("Kingsley started");
 });
 
 module.exports = app;

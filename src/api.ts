@@ -11,7 +11,7 @@ interface Payload {
 function api(payload:Payload) {
   console.log("api", process.env.NODE_ENV);
   console.log("payload", payload);
-  if(process.env.NODE_ENV == 'production') {
+  if(window.location.href.includes("storage.googleapis.com")) {
     return fetch(`https://kingsley-c4k5vxdlya-uc.a.run.app/inquire`, {
       mode: 'cors',
       method: 'POST',
