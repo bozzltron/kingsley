@@ -6,9 +6,9 @@ or in the "license" file accompanying this file. This file is distributed on an 
 See the License for the specific language governing permissions and limitations under the License.
 */
 // Amplify Imports
+
 const express = require("express");
 const bodyParser = require("body-parser");
-const awsServerlessExpressMiddleware = require("aws-serverless-express/middleware");
 
 // Kingsley Imports
 const POS = require("./pos");
@@ -17,7 +17,6 @@ const Conversations = require("./modules/Conversations");
 const Rules = require("./modules/Rules");
 const Scripts = require("./modules/Scripts");
 const Script = require("./models/Script");
-const no_rules_script = require("./models/data/script-no-action.json");
 const Rule = require("./models/Rule");
 
 // declare a new express app
