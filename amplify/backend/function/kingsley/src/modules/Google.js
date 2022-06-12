@@ -1,9 +1,10 @@
 const puppeteer = require("puppeteer");
 
 async function search(query) {
+  query = query.replace("kingsley", "");
   try {
     const URL = "https://www.google.com/";
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
     const page = await browser.newPage();
 
     await page.goto(URL);
@@ -30,13 +31,13 @@ async function search(query) {
       return results;
     });
     console.log("data", data);
-    await browser.close();
-    if (items.length == 0) {
+    //await browser.close();
+    if (data.length == 0) {
       return { text: "I didn't find anything" };
     } else {
       return {
-        text: `I found this. ${item[0].description} from article ${item[0].title}`,
-        url: item[0].url,
+        text: `I found this. ${data[0].description} from article ${data[0].title}`,
+        url: data[0].url,
       };
     }
   } catch (error) {

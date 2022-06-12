@@ -62,7 +62,6 @@ let conversationMode = async (e: Event) => {
               conversation: session.get().id
             });
             timer.start();
-            console.log("response", response);
           } else {
             await Promise.resolve({ text: '' });
           }

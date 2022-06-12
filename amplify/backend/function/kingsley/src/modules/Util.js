@@ -39,4 +39,6 @@ module.exports = {
       text: `It's ${hours}:${minutesString} ${ampm} on ${dayOfTheWeek} ${month} ${day}, ${year}.`,
     });
   },
+
+  runScript: (statement, metadata) => {},
 };

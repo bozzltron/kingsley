@@ -23,6 +23,14 @@ class Script {
     return this.next_step();
   }
 
+  hasConfirmed(statement, metadata) {
+    let decision = false;
+    if (statement.includes("yes") || metadata.sentiment.score > 0) {
+      decision = true;
+    }
+    return true;
+  }
+
   async perform_step(statement, metadata, step) {
     let response = { text: "" };
     if (!step) {
@@ -32,15 +40,19 @@ class Script {
     }
 
     switch (step.action) {
+      case "navigate":
+        this.current_step = step.step;
+        response = this.perform_step(
+          statement,
+          metadata,
+          this.steps[step.step]
+        );
+        break;
       case "speak":
         response = step.response;
         break;
       case "confirm":
-        if (
-          metadata.sentiment.vote != "negative" ||
-          statement.includes("yes") ||
-          !statement.includes("no")
-        ) {
+        if (this.hasConfirmed(statement, metadata)) {
           step.selection = "yes";
           response = await this.perform_step(
             statement,
@@ -76,7 +88,7 @@ class Script {
           console.log("actions", actions);
           if (actions.length > 0) {
             let action = actions[0];
-            await new Rule({
+            let rule = await new Rule({
               statement: this.original_statement.replace("kingsley", ""),
               action: action.name,
               fn: action.fn ? action.fn : undefined,
@@ -86,6 +98,10 @@ class Script {
                     text: statement.split(verb)[1],
                   },
             }).create();
+            step.rule = rule;
+            response = {
+              text: `So I should perform the ${action.name} action when you say: ${this.original_statement}?`,
+            };
           } else {
             // TODO : save action ideas
             response = {

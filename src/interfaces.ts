@@ -23,6 +23,7 @@ interface Meta {
 }
 
 interface Session {
+    id: string,
     active :boolean,
     name :string,
     voice :number,

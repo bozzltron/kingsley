@@ -1,12 +1,13 @@
 {
   "name": "kingsley",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "A browser based digital assistant",
   "main": "script.js",
   "scripts": {
     "test": "jest",
     "start": "webpack serve --hot --inline --env NODE_ENV=development --env SERVICE_KINGSLEY=http://localhost:3011",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "server": "cd amplify/backend/functions/kingsley/src && nodemon index.js --env NODE_ENV=development --env PORT=3011 MONGODB_CONNECTION=mongodb://root:password@localhost:27017/"
   },
   "repository": {
     "type": "git",

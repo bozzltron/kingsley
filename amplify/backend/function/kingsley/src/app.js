@@ -96,8 +96,11 @@ app.post("/inquire", async function (req, res) {
       return respond(res, statement, metadata, conversation, response);
     } else {
       console.log("activate the no rule script");
+      let script = await Scripts.find({ scenario: "no rules" })[0];
+      delete script._id;
+      console.log("no rules script", script);
       let step = await new Script({
-        ...no_rules_script,
+        ...script[0],
         original_statement: statement,
       }).activate();
       return respond(res, statement, metadata, conversation, step.response);

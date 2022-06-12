@@ -1,0 +1,13 @@
+{
+  "scenario": "run down",
+  "steps": [
+    {
+      "action": "time",
+      "fn": "getTimeTime"
+    },
+    {
+      "action": "news",
+      "fn": "news"
+    }
+  ]
+}

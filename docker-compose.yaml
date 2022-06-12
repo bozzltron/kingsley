@@ -7,17 +7,6 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: kingsley
+      TZ: America/Denver
     ports:
       - 27017:27017
-
-  lambda:
-    build: .
-    working_dir: /usr/src/app
-    volumes:
-      - ./amplify/backend/function/kingsley/src:/usr/src/app
-    command: ["node_modules/.bin/nodemon", "index.js"]
-    environment:
-      - MONGODB_CONNECTION=mongodb://root:password@mongodb:27017/
-      - NODE_ENV=development
-    ports:
-      - 3011:3000

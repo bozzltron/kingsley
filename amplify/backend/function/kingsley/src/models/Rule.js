@@ -1,5 +1,6 @@
 const Memory = require("../modules/Memory");
 const search = require("../modules/Google");
+const news = require("../modules/news");
 const Util = require("../modules/Util");
 class Rule {
   constructor(data) {
@@ -22,8 +23,11 @@ class Rule {
     } else if (this.fn == "search") {
       console.log("perform a search rule");
       return await search(statement);
+    } else if (this.fn == "news") {
+      console.log("perform a news rule");
+      return await news(statement);
     } else {
-      return Util[this.fn]();
+      return Util[this.fn](statement, metadata);
     }
   }
   create() {
