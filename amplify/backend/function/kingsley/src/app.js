@@ -22,9 +22,6 @@ const Rule = require("./models/Rule");
 // declare a new express app
 const app = express();
 app.use(bodyParser.json());
-if (process.env.NODE_ENV == "production") {
-  app.use(awsServerlessExpressMiddleware.eventContext());
-}
 
 // Enable CORS for all methods
 app.use(function (req, res, next) {

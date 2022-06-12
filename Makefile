@@ -2,7 +2,7 @@ build:
 	docker build -t kingsley .
 
 deploy-frontend:
-	npm run build
+	#npm run build
 	gsutil rsync -R dist gs://kingsley-frontend
 
 export:
