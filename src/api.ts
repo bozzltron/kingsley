@@ -12,9 +12,15 @@ function api(payload:Payload) {
   console.log("api", process.env.NODE_ENV);
   console.log("payload", payload);
   if(process.env.NODE_ENV == 'production') {
-    return API.post('kingsley', '/inquire', {
-      body: payload
-    });
+    return fetch(`https://kingsley-c4k5vxdlya-uc.a.run.app/inquire`, {
+      mode: 'cors',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify(payload),
+    }).then((res:any)=> res.json());
   } else {
     return fetch(`http://localhost:3011/inquire`, {
       mode: 'cors',
