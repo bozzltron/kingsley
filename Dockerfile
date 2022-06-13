@@ -32,7 +32,8 @@ RUN apt-get update && apt-get install -y \
     libxss1 \
     libxtst6 \
     xdg-utils \ 
-    chromium 
+    chromium \
+    procps
 
 COPY amplify/backend/function/kingsley/src /usr/src/app
 WORKDIR /usr/src/app
