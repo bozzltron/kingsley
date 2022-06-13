@@ -48,7 +48,7 @@ async function respond(res, statement, metadata, conversation, response) {
 app.post("/inquire", async function (req, res) {
   try {
     let response;
-    logger.info("body", req.body);
+    logger.info("New inquiry", req.body, "---------------------");
 
     if (!req.body.statement || !req.body.confidence) {
       return res.set({ status: 400 }).json({
@@ -94,13 +94,15 @@ app.post("/inquire", async function (req, res) {
     } else {
       logger.info("activate the no rule script");
       let script = await Scripts.find({ scenario: "no rules" })[0];
-      delete script._id;
-      logger.info("no rules script", script);
-      let step = await new Script({
-        ...script[0],
-        original_statement: statement,
-      }).activate();
-      return respond(res, statement, metadata, conversation, step.response);
+      if (script) {
+        delete script._id;
+        logger.info("no rules script", script);
+        let step = await new Script({
+          ...script[0],
+          original_statement: statement,
+        }).activate();
+        return respond(res, statement, metadata, conversation, step.response);
+      }
     }
 
     respond(res, statement, metadata, conversation, { text: "" });

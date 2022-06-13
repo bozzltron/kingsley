@@ -37,5 +37,6 @@ RUN apt-get update && apt-get install -y \
 COPY amplify/backend/function/kingsley/src /usr/src/app
 WORKDIR /usr/src/app
 RUN npm install
+RUN npm install pm2 -g
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
-CMD ["npm", "start"]
+CMD ["pm2-runtime", "index.js"]

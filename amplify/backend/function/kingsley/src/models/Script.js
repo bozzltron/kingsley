@@ -75,7 +75,7 @@ class Script {
         break;
       case "create_rule":
         if (metadata.pos.verbs.length == 0) {
-          response = { text: "I don't understand. Try again" };
+          response = { text: "I don't understand. You you say that again." };
         }
         let verb = metadata.pos.verbs[0];
         logger.info("verb", verb);
