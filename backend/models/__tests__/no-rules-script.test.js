@@ -53,8 +53,6 @@ describe("No rules script", () => {
       .mockResolvedValueOnce([
         Object.assign({}, noRulesScript, { current_step: 1 }),
       ]);
-    //Rules.search = jest.fn(() => Promise.resolve([]));
-    //Memory.create = jest.fn(() => Promise.resolve());
     Script.prototype.update = jest.fn(() => Promise.resolve());
     Conversation.prototype.update = jest.fn(() => Promise.resolve());
 
@@ -86,8 +84,6 @@ describe("No rules script", () => {
         original_statement: "what's the weather",
       }),
     ]);
-    //Rules.search = jest.fn(() => Promise.resolve([]));
-    //Memory.create = jest.fn(() => Promise.resolve());
     Script.prototype.update = jest.fn(() => Promise.resolve());
     Conversation.prototype.update = jest.fn(() => Promise.resolve());
     Rule.prototype.create = jest.fn(() => Promise.resolve());
@@ -116,6 +112,37 @@ describe("No rules script", () => {
         console.log("response", response.body);
         expect(response.body).toEqual({
           text: "So I should perform the search action when you say: what's the weather?",
+        });
+      });
+  });
+
+  it("step 4 : second confirmation", async () => {
+    let conversation = new Conversation({ id: "no-rules-test" });
+    Conversations.findOrCreate = jest.fn(() => Promise.resolve(conversation));
+    Conversations.findOrCreate = jest.fn(() => Promise.resolve(conversation));
+    Rules.find = jest.fn().mockResolvedValueOnce([]);
+    Scripts.find = jest
+      .fn()
+      .mockResolvedValueOnce([
+        Object.assign({}, noRulesScript, { current_step: 3 }),
+      ]);
+    Script.prototype.update = jest.fn(() => Promise.resolve());
+    Conversation.prototype.update = jest.fn(() => Promise.resolve());
+
+    await request(app)
+      .post("/inquire")
+      .send({
+        statement: "that is correct",
+        confidence: 0.99,
+        conversation: "test-convo",
+      })
+      .set("Accept", "application/json")
+      .expect("Content-Type", /json/)
+      .expect(200)
+      .then((response) => {
+        console.log("response", response.body);
+        expect(response.body).toEqual({
+          text: "Got it",
         });
       });
   });
