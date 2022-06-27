@@ -1,0 +1,7 @@
+{
+  "statement": "what is your name",
+  "action": "speak",
+  "response": {
+    "text": "My name is Kingsley."  
+  }
+}

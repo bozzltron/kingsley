@@ -38,6 +38,7 @@ let conversationMode = async (e: Event) => {
     try {
       session.get().active ? face.update(session.get().face) : face.update('sleeping');
       console.log('start listening')
+      sleep(0.5);
       let results = await listen();
       console.log('handle results', results);
       for (let i = 0; i < results.length; i++) {

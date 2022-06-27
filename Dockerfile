@@ -35,9 +35,10 @@ RUN apt-get update && apt-get install -y \
     chromium \
     procps
 
-COPY amplify/backend/function/kingsley/src /usr/src/app
+COPY backend /usr/src/app
 WORKDIR /usr/src/app
 RUN npm install
 RUN npm install pm2 -g
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
+RUN sysctl -w kernel.unprivileged_userns_clone=1
 CMD ["pm2-runtime", "index.js"]
