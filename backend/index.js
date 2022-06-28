@@ -12,9 +12,11 @@ async function startServer() {
     app.use(mw);
   }
 
-  app.listen(process.env.PORT, () => {
-    logger.info(`Kingsley listening on port ${process.env.PORT}`);
-  });
+  if (process.env.NODE_ENV !== "test") {
+    app.listen(process.env.PORT || 8080, function () {
+      logger.info(`Kingsley listening on port ${process.env.PORT}`);
+    });
+  }
 }
 
 startServer();

@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "pm2 start index.js",
-    "start-dev": "PORT=3011 MONGODB_CONNECTION=mongodb://root:password@localhost:27017 node_modules/.bin/nodemon index.js",
+    "start-dev": "PORT=3012 MONGODB_CONNECTION=mongodb://root:password@localhost:27017 node_modules/.bin/nodemon index.js",
     "test": "NODE_ENV=test jest"
   },
   "devDependencies": {

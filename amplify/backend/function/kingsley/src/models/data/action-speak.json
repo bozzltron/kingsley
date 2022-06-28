@@ -1,6 +1,0 @@
-{
-  "name": "speak",
-  "verbs": ["say", "speak", "talk"],
-  "parser": "say",
-  "type": "action"
-}

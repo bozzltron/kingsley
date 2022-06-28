@@ -25,14 +25,22 @@ class Script {
 
   hasConfirmed(statement, metadata) {
     let decision = false;
-    if (statement.includes("yes")) {
+    if (
+      statement.includes("yes") ||
+      statement.includes("is correct") ||
+      statement.includes("right")
+    ) {
       decision = true;
-    } else if (statement.includes("no")) {
+    } else if (
+      statement.includes("no") ||
+      statement.includes("not correct") ||
+      statement.includes("wrong")
+    ) {
       decision = false;
     } else if (metadata.sentiment.score > 0.3) {
       decision = true;
     }
-    return true;
+    return decision;
   }
 
   async perform_step(statement, metadata, step) {
@@ -119,8 +127,10 @@ class Script {
   }
 
   async next_step() {
+    console.log("next_step");
     let step = this.steps[this.current_step];
     this.current_step = this.current_step + 1;
+    console.log("current_step", this.current_step);
     if (this.current_step >= this.steps.length) {
       await this.delete();
     } else {

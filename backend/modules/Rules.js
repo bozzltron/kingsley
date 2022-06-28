@@ -1,8 +1,10 @@
 const Memory = require("../modules/Memory");
 const Rule = require("../models/Rule");
 const Rules = {
-  find: (statement) => {
-    return Memory.find({ type: "rule", statement });
+  find: (options) => {
+    return Memory.find({
+      $and: [{ type: "rule" }, options],
+    });
   },
   search: (statement) => {
     return Memory.search(statement);

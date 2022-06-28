@@ -42,7 +42,7 @@
         },
         "no": {
           "action": "navigate",
-          "step": 3
+          "step": 1
         }
       }
     }

@@ -1,5 +1,0 @@
-{
-  "statement": "what time is it",
-  "action": "speak",
-  "function": "getTheTime"
-}

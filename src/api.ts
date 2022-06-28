@@ -22,7 +22,7 @@ function api(payload:Payload) {
       body: JSON.stringify(payload),
     }).then((res:any)=> res.json());
   } else {
-    return fetch(`http://localhost:3011/inquire`, {
+    return fetch(`http://localhost:3012/inquire`, {
       mode: 'cors',
       method: 'POST',
       headers: {

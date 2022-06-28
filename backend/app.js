@@ -116,10 +116,4 @@ app.post("/inquire", async function (req, res) {
   }
 });
 
-if (process.env.NODE_ENV !== "test") {
-  app.listen(process.env.PORT || 8080, function () {
-    logger.info("Kingsley started");
-  });
-}
-
 module.exports = app;

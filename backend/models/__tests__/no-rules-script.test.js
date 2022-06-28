@@ -119,7 +119,6 @@ describe("No rules script", () => {
   it("step 4 : second confirmation", async () => {
     let conversation = new Conversation({ id: "no-rules-test" });
     Conversations.findOrCreate = jest.fn(() => Promise.resolve(conversation));
-    Conversations.findOrCreate = jest.fn(() => Promise.resolve(conversation));
     Rules.find = jest.fn().mockResolvedValueOnce([]);
     Scripts.find = jest
       .fn()
@@ -127,6 +126,7 @@ describe("No rules script", () => {
         Object.assign({}, noRulesScript, { current_step: 3 }),
       ]);
     Script.prototype.update = jest.fn(() => Promise.resolve());
+    Script.prototype.delete = jest.fn(() => Promise.resolve());
     Conversation.prototype.update = jest.fn(() => Promise.resolve());
 
     await request(app)
