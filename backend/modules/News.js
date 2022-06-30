@@ -6,6 +6,7 @@ async function news(query) {
     const URL = "https://apnews.com/";
     const browser = await puppeteer.launch({
       headless: process.env.NODE == "production",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
 
