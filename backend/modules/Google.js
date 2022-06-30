@@ -5,7 +5,8 @@ async function search(query) {
   try {
     const URL = "https://www.google.com/";
     const browser = await puppeteer.launch({
-      headless: process.env.NODE == "production",
+      headless: process.env.NODE_ENV == "production",
+      args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
     const page = await browser.newPage();
 
