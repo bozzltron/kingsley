@@ -9,16 +9,14 @@ See the License for the specific language governing permissions and limitations 
 
 const express = require("express");
 const bodyParser = require("body-parser");
+require("dotenv").config();
 
 // Kingsley Imports
 const POS = require("./pos");
 const Sentiment = require("./modules/Sentiment");
-const Conversations = require("./modules/Conversations");
-const Rules = require("./modules/Rules");
-const Scripts = require("./modules/Scripts");
-const Script = require("./models/Script");
-const Rule = require("./models/Rule");
 const logger = require("./modules/Logger");
+const kbai = require("./modes/kbai");
+const nlp = require("./modes/nlp");
 
 // declare a new express app
 const app = express();
@@ -35,19 +33,9 @@ app.use(function (req, res, next) {
  * Example post method *
  ****************************/
 
-async function respond(res, statement, metadata, conversation, response) {
-  await conversation.update({
-    statement,
-    metadata,
-    response,
-  });
-  logger.info("response", response);
-  res.json(response);
-}
-
 app.post("/inquire", async function (req, res) {
   try {
-    let response;
+    let response = { text: "" };
     logger.info("New inquiry", req.body, "---------------------");
 
     if (!req.body.statement || !req.body.confidence) {
@@ -66,47 +54,22 @@ app.post("/inquire", async function (req, res) {
     };
     logger.info("metadata", metadata);
 
-    const conversation = await Conversations.findOrCreate(
-      metadata.conversation_id
-    );
-    logger.info("conversation", conversation);
+    // req.body.mode = req.body.mode || "nlp";
+    // switch (req.body.mode) {
+    //   case "kbai":
+    //     response = await kbai(req, res, metadata, statement);
+    //     break;
+    //   case "nlp":
+    //     response = await nlp(req, res, metadata, statement);
+    //     break;
+    // }
 
-    const active_scripts = await Scripts.find({ active: true });
-    if (active_scripts.length > 0) {
-      const active_script = active_scripts[0];
-      logger.info("active script", active_script);
-      response = await new Script(active_script).perform_step(
-        statement,
-        metadata
-      );
-      return respond(res, statement, metadata, conversation, response);
+    response = await kbai(req, res, metadata, statement);
+    if (!response.text) {
+      response = await nlp(req, res, metadata, statement);
     }
-
-    // Reaction
-    const rules = await Rules.search(statement);
-    logger.info("rules", rules);
-
-    // Reason
-    if (rules.length > 0) {
-      logger.info("rule", rules[0]);
-      let response = await new Rule(rules[0]).perform(statement, metadata);
-      return respond(res, statement, metadata, conversation, response);
-    } else {
-      logger.info("activate the no rule script");
-      let scripts = await Scripts.find({ scenario: "no rules" });
-      if (scripts.length > 0) {
-        let script = scripts[0];
-        if (script._id) delete script._id;
-        logger.info("no rules script", script);
-        let step = await new Script({
-          ...script,
-          original_statement: statement,
-        }).activate();
-        return respond(res, statement, metadata, conversation, step.response);
-      }
-    }
-
-    respond(res, statement, metadata, conversation, { text: "" });
+    console.log("response", response);
+    res.json(response);
   } catch (e) {
     console.error(e);
     res.set({ status: 500 }).json({

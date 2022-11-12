@@ -1,6 +1,13 @@
+const { a } = require("aws-amplify");
 const Browser = require("./Browser");
 const logger = require("./Logger");
-async function search(query) {
+
+function detectURLs(message) {
+  var urlRegex = /(((https?:\/\/)|(www\.))[^\s]+)/g;
+  return message.match(urlRegex);
+}
+
+async function define(query) {
   query = query.replace("kingsley", "");
   try {
     const URL = "https://www.google.com/";
@@ -20,15 +27,32 @@ async function search(query) {
 
     let data = await page.evaluate(() => {
       let results = [];
-      // let items = document.querySelectorAll("body .g");
-      // items.forEach((item) => {
-      //   results.push({
-      //     description: item.querySelector("span").textContent,
-      //     url: item.querySelector("a").getAttribute("href"),
-      //     title: item.querySelector("a h3").textContent,
-      //   });
-      // });
-      var theText = document.body.innerText;
+      document.body.innerText.split("\n").forEach((str) => {
+        let urls = detectURLs(str);
+        let item = {
+          source: null,
+          text: "",
+        };
+        if (urls.length > 0) {
+          if (item.source != null) {
+            results.push(item);
+            item = {
+              source: null,
+              text: "",
+            };
+          }
+          item.source = urls[0];
+        }
+        if (item.source) {
+          if (
+            str.includes(" are ") ||
+            str.includes(" is ") ||
+            str.includes(" they ")
+          ) {
+            item.text += str;
+          }
+        }
+      });
       return results;
     });
     logger.info("data", data);
@@ -46,4 +70,4 @@ async function search(query) {
   }
 }
 
-module.exports = search;
+module.exports = define;

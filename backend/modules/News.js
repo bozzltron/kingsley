@@ -1,13 +1,12 @@
-const puppeteer = require("puppeteer");
+const Browser = require("./Browser");
 const logger = require("./Logger");
 async function news(query) {
   query = query.replace("kingsley", "");
+
   try {
     const URL = "https://apnews.com/";
-    const browser = await puppeteer.launch({
-      headless: process.env.NODE_ENV == "production",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+
+    const browser = await Browser();
     const page = await browser.newPage();
 
     await page.goto(URL);
