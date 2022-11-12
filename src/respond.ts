@@ -13,7 +13,7 @@ export default function respond(response: Response) {
       
         if (response.text === "") {
         face.update('disappointed');
-        response.text = "Try again."
+        //response.text = "Try again."
       } else {
         face.update('open_mouth');
       }

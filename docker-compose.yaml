@@ -1,5 +1,8 @@
-services:
 
+volumes:
+  kingsley-db
+
+services:
   mongodb:
     image: mongo
     restart: always
@@ -7,6 +10,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: kingsley
-      TZ: America/Denver
+      TZ: America/Chicago
+    volumes: kingsley-db:/data/db
     ports:
       - 27017:27017

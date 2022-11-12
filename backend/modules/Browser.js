@@ -1,4 +1,3 @@
-const { call } = require("file-loader");
 const puppeteer = require("puppeteer");
 const logger = require("./Logger");
 
