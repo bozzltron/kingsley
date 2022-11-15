@@ -23,7 +23,7 @@ class Rule {
       return this.response;
     } else if (this.fn == "search") {
       logger.info("perform a search rule");
-      return await search(statement);
+      return await search(statement, metadata);
     } else if (this.fn == "news") {
       logger.info("perform a news rule");
       return await news(statement);
