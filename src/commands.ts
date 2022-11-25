@@ -4,8 +4,6 @@ import session from './session';
 import { Response, Article, Link } from './interfaces'
 import face from './face'
 
-Amplify.configure(awsconfig);
-
 function getRandomItemFrom(array :Array<string>) {
     return array[Math.floor(Math.random() * array.length)];
 }

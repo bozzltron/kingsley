@@ -2,9 +2,6 @@ import 'url-search-params-polyfill'
 import { v4 as uuidv4 } from 'uuid';
 import debug from './debug';
 import listen from './listen'
-import speak from './speak'
-import interpret from './interpret'
-import commands from './commands'
 import "./style.css";
 import session from './session'
 import { Response } from './interfaces'
