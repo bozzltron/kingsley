@@ -1,3 +1,5 @@
+const dalle = require("../modes/dalle");
+
 module.exports = {
   getTheTime: () => {
     const monthNames = [
@@ -41,4 +43,9 @@ module.exports = {
   },
 
   runScript: (statement, metadata) => {},
+
+  createImage: async (statement, metadata) => {
+    let response = await dalle(statement, metadata);
+    return response;
+  },
 };
