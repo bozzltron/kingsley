@@ -15,7 +15,7 @@ async function nlp(req, res, metadata, statement) {
     let body;
 
     const completion = await openai.createCompletion({
-      model: "text-davinci-002",
+      model: "text-davinci-003",
       prompt: `The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, a fan of Wes Anderson, and very friendly.\n\nHuman: Hello \nAI: Hi! How are you?\nHuman: ${statement}\nAI:`,
       temperature: 0,
       max_tokens: 100,
