@@ -46,11 +46,23 @@ app.post("/inquire", async function (req, res) {
     }
 
     const statement = req.body.statement;
+    let pos = {
+      nouns: [],
+      verbs: [],
+      adjectives: [],
+      adverbs: [],
+      rest: [],
+    };
+    try {
+      pos = await POS.getPOS(statement);
+    } catch (e) {
+      console.error(e);
+    }
     const metadata = {
       confidence: req.body.confidence,
       conversation_id: req.body.conversation,
       sentiment: await Sentiment.analyze(statement),
-      pos: await POS.getPOS(statement),
+      pos: pos,
     };
     logger.info("metadata", metadata);
 
@@ -64,10 +76,10 @@ app.post("/inquire", async function (req, res) {
     //     break;
     // }
 
-    response = await kbai(req, res, metadata, statement);
-    if (!response.text) {
-      response = await nlp(req, res, metadata, statement);
-    }
+    //response = await kbai(req, res, metadata, statement);
+    //if (!response.text) {
+    response = await nlp(req, res, metadata, statement);
+    //}
     console.log("response", response);
     res.json(response);
   } catch (e) {

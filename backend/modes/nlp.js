@@ -24,12 +24,27 @@ async function nlp(req, res, metadata, statement) {
       presence_penalty: 0,
     });
 
-    console.log(completion.data);
+    let text = completion.data.choices[0].text;
 
-    response = { text: completion.data.choices[0].text };
+    const urlRegex = /(https?:\/\/[^ ]*)/;
+    const url = text.match(urlRegex)[1];
+
+    console.log(completion.data);
+    response = { text: text };
+    if (
+      url &&
+      (url.includes(".jpg") ||
+        url.includes(".png") ||
+        url.includes(".gif") ||
+        url.includes(".webp"))
+    ) {
+      response.image = url;
+    } else {
+      response.url = url;
+    }
   } catch (error) {
     console.log(error);
-    response = makeResponse(500, error);
+    response = { text: "I encountered an error. Try again." };
   }
 
   return response;
