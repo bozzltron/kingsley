@@ -34,4 +34,16 @@ interface Session {
     conversation :string
 }
 
-export { Response, Article, Meta, Session, Link }
+interface Inquiry {
+    statement: string;
+    confidence: number;
+    conversation: string;
+    personality: string;
+}
+
+interface Interaction {
+    statement: string;
+    response: Response;
+}
+
+export { Response, Article, Meta, Session, Link, Inquiry, Interaction }

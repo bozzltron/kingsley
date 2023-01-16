@@ -9,23 +9,23 @@ export default function respond(response: Response) {
     if (!response) return Promise.resolve();
     response.speak = response.speak !== false;
     
-    if (session.get().active) {
+    //if (session.get().active) {
       
-        if (response.text === "") {
+      if (response.text === "") {
         face.update('disappointed');
         //response.text = "Try again."
       } else {
         face.update('open_mouth');
       }
       
-      if (response.meta) {
-        session.set({ meta: response.meta });
-      }
+      // if (response.meta) {
+      //   session.set({ meta: response.meta });
+      // }
       
       messages.create(Object.assign({}, response, { text: "Response: " + response.text, url: response.url }));
       return response.speak ? speak(response.text) : Promise.resolve();
-    } else {
-      messages.create({ text: `Saying "${session.get().name}" will wake me up.` });
-      return Promise.resolve();
-    }
+    // } else {
+    //   messages.create({ text: `Saying "${session.get().name}" will wake me up.` });
+    //   return Promise.resolve();
+    // }
   }

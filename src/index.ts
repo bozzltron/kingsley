@@ -4,12 +4,14 @@ import debug from './debug';
 import listen from './listen'
 import "./style.css";
 import session from './session'
-import { Response } from './interfaces'
+import { Response, Inquiry, Interaction } from './interfaces'
 import face from './face'
 import respond from './respond'
 import messages from './messages' 
 import timer from './timer';
-import api from './api';
+import { Conversation } from './conversation';
+
+const personality = "The following is a conversation with an AI assistant. This assistants name is Kingsley. The assistant is helpful, creative, clever, a fan of Wes Anderson, and very friendly.";
 
 var el: HTMLElement = document.querySelector('.activate');
 
@@ -21,14 +23,30 @@ function sleep(seconds: number) {
 
 debug() || messages.create({ text: "Tap me to get started." });
 
+const socket = new WebSocket('ws://localhost:5000');
+
+// Connection opened
+socket.addEventListener( 'open', (event) => {
+  console.log('Connected ', event);
+});
+
+// Listen for messages
+socket.addEventListener('message', async (event) => {
+  console.log('Message from server ', event.data);
+  const response : Response = JSON.parse(event.data);
+  Conversation.add(`\nAI: ${[ response.text, response.url, response.image ].join(" ")}`);
+  await respond(response);
+  face.update("slightly_smiling_face");
+});
+
 let conversationMode = async (e: Event) => {
 
   messages.clear();
-  timer.start();
-  session.set({ id:uuidv4()});
+  //timer.start();
+  //session.set({ id:uuidv4()});
 
   try {
-    session.get().active ? face.update(session.get().face) : face.update('sleeping');
+    //session.get().active ? face.update(session.get().face) : face.update('sleeping');
     console.log('start listening')
     let results = await listen();
     console.log('handle results', results);
@@ -39,31 +57,33 @@ let conversationMode = async (e: Event) => {
       let confidence = result.confidence;
       messages.clear();
       messages.create({ text: "I heard: " + statement });
-      let response: Response;
+   
       try {
-        if (statement.split(' ').includes(session.get().name.toLowerCase())) {
-          session.set({ active: true });
-          console.log("reactivated!", "session", session.get());
-        };
-        if (session.get().active) {
+        // if (statement.split(' ').includes(session.get().name.toLowerCase())) {
+        //   session.set({ active: true });
+        //   console.log("reactivated!", "session", session.get());
+        // };
+        //if (session.get().active) {
           face.update('thinking_face');
-          timer.stop();
-          response = await api({
-            statement: statement,
-            confidence: confidence,
-            conversation: session.get().id
-          });
-          timer.start();
-        } else {
-          await Promise.resolve({ text: '' });
-        }
+          //timer.stop();
+          Conversation.add(`\nHuman: ${statement}`);
+          let inquiry: Inquiry = {
+            personality,
+            statement,
+            confidence,
+            conversation: Conversation.get()
+          };
+          
+          socket.send(JSON.stringify(inquiry));
+          //timer.start();
+        // } else {
+        //   await Promise.resolve({ text: '' });
+        // }
 
       } catch (e) {
         console.error(e);
-        response = {text: ''}
       }
-      await respond(response);
-      face.update("slightly_smiling_face");
+      
       if (confidence < 0.2 && session.get().active) {
         face.update('confused');
         await respond({ text: "Can you speak clearly?  I didn't hear you very well." })
