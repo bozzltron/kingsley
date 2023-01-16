@@ -23,7 +23,9 @@ function sleep(seconds: number) {
 
 debug() || messages.create({ text: "Tap me to get started." });
 
-const socket = new WebSocket('ws://localhost:5000');
+const server = window.location.href.includes("storage.googleapis.com") ? "ws://kingsley-c4k5vxdlya-uc.a.run.app" : "ws://localhost:8080";
+
+const socket = new WebSocket(server);
 
 // Connection opened
 socket.addEventListener( 'open', (event) => {
