@@ -1,13 +1,6 @@
 import { config, serve, ws } from "./deps.ts";
 
-
 console.log(config().OPENAI_API_KEY);
-// const configuration = new Configuration({
-//   organization: "org-oRMrXQorTUgrPoKkQZDQSw7x",
-//   apiKey: Deno.env.get("OPENAI_API_KEY") || config().OPENAI_API_KEY,
-// });
-
-// const openai = new OpenAIApi(configuration);
 
 console.log("Waiting for clients ...");
 
@@ -85,7 +78,7 @@ async function nlp(inquiry:Inquiry): Promise<Response>   {
   return response;
 }
 
-for await (const req of serve(":5000")) {
+for await (const req of serve(":8080")) {
   console.log("Incoming connection from client ...");
   const wdata = {
     conn: req.conn,
