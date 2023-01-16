@@ -37,7 +37,7 @@ async function nlp(inquiry:Inquiry): Promise<Response>   {
         method: 'POST', // or 'PUT'
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${config().OPENAI_API_KEY}`
+          'Authorization': `Bearer ${config().OPENAI_API_KEY || Deno.env.get("OPENAI_API_KEY")}`
         },
         body: JSON.stringify({    
             "model": "text-davinci-003",    
