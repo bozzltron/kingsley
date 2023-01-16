@@ -11,6 +11,14 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: password
       MONGO_INITDB_DATABASE: kingsley
       TZ: America/Chicago
-    volumes: kingsley-db:/data/db
+    volumes:
+      - "kingsley-db:/data/db"
     ports:
       - 27017:27017
+
+  deno:
+    image: denoland/deno:1.10.3
+    volumes:
+      - "./deno:/app"
+    ports:
+      - 8080:8080

@@ -1,3 +1,7 @@
+run:
+	docker-compose down
+	docker compose up
+
 build:
 	docker build -t kingsley .
 
