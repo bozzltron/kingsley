@@ -8,7 +8,8 @@ build:
 deploy-frontend:
 	npm run build
 	gcloud config set account mtbosworth@gmail.com
-	gsutil rsync -R dist gs://kingsley-frontend
+	gsutil web set -m index.html gs://www.mydigitalassistant.ai
+	gsutil rsync -R dist gs://www.mydigitalassistant.ai
 	gcloud config set account mbosworth@gridrival.com
 
 deno:
