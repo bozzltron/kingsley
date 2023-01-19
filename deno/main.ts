@@ -57,6 +57,9 @@ async function nlp(inquiry:Inquiry): Promise<Response>   {
     const matches: Array<string> = text.match(urlRegex) || []
     const url:string = matches?.length > 0 ? matches[0] : "";
     
+    // Remove the url from the text so that we don't read it out loud
+    text = text.replace(url, "");
+    
     response.text = text;
     if (
       url &&
